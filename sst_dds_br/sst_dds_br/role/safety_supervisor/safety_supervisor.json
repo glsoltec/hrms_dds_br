@@ -1,0 +1,9 @@
+{
+ "desk_access": 1,
+ "doctype": "Role",
+ "home_page": "",
+ "is_custom": 0,
+ "name": "Safety Supervisor",
+ "restrict_to_domain": ""
+}
+

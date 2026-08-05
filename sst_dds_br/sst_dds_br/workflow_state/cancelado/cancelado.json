@@ -1,0 +1,7 @@
+{
+ "doctype": "Workflow State",
+ "workflow_state_name": "Cancelado",
+ "style": "Danger",
+ "module": "SST DDS BR",
+ "name": "Cancelado"
+}

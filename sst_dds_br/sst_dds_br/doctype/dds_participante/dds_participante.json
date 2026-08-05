@@ -1,0 +1,30 @@
+{
+ "actions": [],
+ "creation": "2026-08-04 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": ["employee", "designation", "present", "signature", "signature_collected_by", "signature_collected_at", "signature_hash", "observation"],
+ "fields": [
+  {"fieldname":"employee","fieldtype":"Link","label":"Colaborador","options":"Employee","reqd":1,"in_list_view":1,"columns":3},
+  {"fieldname":"designation","fieldtype":"Data","label":"Função","read_only":1,"in_list_view":1,"columns":2},
+  {"fieldname":"present","fieldtype":"Check","label":"Presente","default":"1","in_list_view":1,"columns":1},
+  {"fieldname":"signature","fieldtype":"Signature","label":"Assinatura","columns":3},
+  {"fieldname":"signature_collected_by","fieldtype":"Link","label":"Assinatura coletada por","options":"User","read_only":1,"no_copy":1},
+  {"fieldname":"signature_collected_at","fieldtype":"Datetime","label":"Assinatura coletada em","read_only":1,"no_copy":1},
+  {"fieldname":"signature_hash","fieldtype":"Data","label":"Hash da assinatura","read_only":1,"hidden":1,"no_copy":1},
+  {"fieldname":"observation","fieldtype":"Data","label":"Observação","columns":3}
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-04 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "SST DDS BR",
+ "name": "DDS Participante",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

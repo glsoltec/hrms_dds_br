@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 64 64" role="img" aria-label="SST DDS BR">
+  <rect width="64" height="64" rx="12" fill="#17876d"/>
+  <path d="M32 10 51 18v13c0 12-7.7 20.4-19 24-11.3-3.6-19-12-19-24V18l19-8Z" fill="#fff"/>
+  <path d="m22 32 7 7 14-16" fill="none" stroke="#17876d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

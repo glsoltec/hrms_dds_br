@@ -1,0 +1,3 @@
+recursive-include sst_dds_br *.css *.csv *.html *.ico *.js *.json *.md *.png *.py *.svg *.txt
+recursive-exclude sst_dds_br *.pyc
+include LICENSE README.md PRIVACY.md SUPPORT.md MARKETPLACE.md
