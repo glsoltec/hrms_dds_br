@@ -291,10 +291,56 @@ def _rebuild_dds_content(workspace):
                     "data": {"shortcut_name": shortcut_names[label], "col": 4},
                 }
             )
+    content.extend(_dashboard_blocks())
     new_content = json.dumps(content, ensure_ascii=False)
     changed = workspace.content != new_content
     workspace.content = new_content
     return changed
+
+
+def _dashboard_blocks():
+    return [
+        {
+            "id": "dds_chart_month",
+            "type": "chart",
+            "data": {"chart_name": "DDS por Mês", "col": 12},
+        },
+        {
+            "id": "dds_card_total",
+            "type": "number_card",
+            "data": {"number_card_name": "Total DDS", "col": 3},
+        },
+        {
+            "id": "dds_card_submitted",
+            "type": "number_card",
+            "data": {"number_card_name": "DDS Enviados", "col": 3},
+        },
+        {
+            "id": "dds_card_cancelled",
+            "type": "number_card",
+            "data": {"number_card_name": "DDS Cancelados", "col": 3},
+        },
+        {
+            "id": "dds_card_draft",
+            "type": "number_card",
+            "data": {"number_card_name": "DDS Rascunho", "col": 3},
+        },
+        {
+            "id": "dds_chart_topic",
+            "type": "chart",
+            "data": {"chart_name": "DDS por Tema", "col": 6},
+        },
+        {
+            "id": "dds_chart_status",
+            "type": "chart",
+            "data": {"chart_name": "DDS por Situação", "col": 6},
+        },
+        {
+            "id": "dds_chart_project",
+            "type": "chart",
+            "data": {"chart_name": "DDS por Projeto", "col": 12},
+        },
+    ]
 
 
 def _rebuild_sst_content(workspace):
@@ -328,6 +374,7 @@ def _rebuild_sst_content(workspace):
                 "data": {"shortcut_name": shortcut_names["DDS Tema"], "col": 4},
             }
         )
+    content.extend(_dashboard_blocks())
     new_content = json.dumps(content, ensure_ascii=False)
     changed = workspace.content != new_content
     workspace.content = new_content

@@ -36,6 +36,9 @@ doctype_js = {
     "Employee": "public/js/employee.js",
 }
 
+# Redireciona /desk/dds para a lista do DocType DDS.
+app_include_js = ["/assets/hrms_dds_br/js/dds_redirect.js"]
+
 # Protecao de dados (LGPD): permite exportar/eliminar registros do titular.
 user_data_fields = [
     {

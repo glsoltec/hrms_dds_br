@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.17 - 2026-09-02
+
+- Corrigida a renderização dos gráficos/cards no workspace (blocos no content).
+- `/desk/dds` redireciona para a lista do DocType DDS (`/app/dds`).
+
 ## 1.4.16 - 2026-09-02
 
 - Corrigida a ordem de criação dos gráficos/cards antes da sincronização dos workspaces.
