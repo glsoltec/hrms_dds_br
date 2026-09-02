@@ -1,3 +1,5 @@
+import json
+
 import frappe
 
 
@@ -86,6 +88,8 @@ def sync_dds_workspace_links():
         return
 
     workspace = frappe.get_doc("Workspace", workspace_name)
+    if isinstance(workspace.content, str):
+        workspace.content = json.loads(workspace.content or "[]")
     valid_targets = {"DDS", "DDS Tema", "Employee DDS History", "DDS Dashboard"}
     existing_links = list(workspace.links)
     workspace.links = [
