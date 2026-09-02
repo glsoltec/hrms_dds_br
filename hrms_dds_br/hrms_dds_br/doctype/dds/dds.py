@@ -66,11 +66,12 @@ class DDS(Document):
         )
 
     def _settings_value(self, fieldname, default):
-        try:
-            value = frappe.db.get_single_value("HRMS DDS BR Settings", fieldname)
-        except Exception:
-            value = None
-        return default if value is None else value
+        config_map = {
+            "allow_retroactive_days": "dds_retroactive_days",
+            "allow_future_days": "dds_future_days",
+        }
+        value = frappe.conf.get(config_map.get(fieldname))
+        return default if value is None else int(value)
 
     def _validate_date_range(self):
         if self.docstatus or not self.date:

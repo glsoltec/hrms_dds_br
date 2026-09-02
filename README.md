@@ -17,7 +17,7 @@ Versão atual: `1.3.3`.
 - **Relatório `Employee DDS History`**: histórico de participação por empregado, com isolamento de acesso por participante/responsável no servidor.
 - Link **Histórico de DDS** exibido também na tela de autoatendimento HRMS `/hrms/home`, junto aos atalhos rápidos.
 - **Painel `DDS Dashboard`**: indicadores, gráfico mensal e alerta de projetos sem DDS recente.
-- **Configuração `HRMS DDS BR Settings`**: limite de dias retroativo/futuro para a data e dias sem DDS para alerta.
+- **Configuração via `site_config.json`**: chaves `dds_retroactive_days`, `dds_future_days` e `dds_no_dds_alert_days` (padrões 1, 0 e 3).
 - Regras de negócio: cancelamento exige motivo registrado, DDS enviado/cancelado não pode ser excluído fisicamente, correção formal vinculada ao DDS original e aviso sobre a validade da assinatura no formulário.
 - Papéis `Safety Manager` e `Safety Supervisor`.
 - Workspace _Segurança do Trabalho_ e formato de impressão `DDS`.

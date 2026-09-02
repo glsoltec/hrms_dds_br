@@ -1,38 +1,4 @@
-import os
-
 import frappe
-from frappe import _
-
-
-def _import_settings_schema():
-    target = "hrms_dds_br_settings.json"
-    for base, _dirs, files in os.walk(frappe.get_app_path("hrms_dds_br")):
-        if target in files:
-            path = os.path.join(base, target)
-            from frappe.modules.import_file import import_file_by_path
-
-            import_file_by_path(path)
-            frappe.cache.delete_value("doctype_modules")
-            return
-    frappe.throw(_("Arquivo de schema do HRMS DDS BR Settings não encontrado."))
-
-
-def ensure_dds_settings():
-    doctype = "HRMS DDS BR Settings"
-    if not frappe.db.exists("DocType", doctype):
-        _import_settings_schema()
-        frappe.db.commit()
-
-    if frappe.db.exists(doctype, doctype):
-        return
-
-    settings = frappe.new_doc(doctype)
-    settings.name = doctype
-    settings.allow_retroactive_days = 1
-    settings.allow_future_days = 0
-    settings.no_dds_alert_days = 3
-    settings.flags.ignore_mandatory = True
-    settings.insert(ignore_permissions=True)
 
 
 WORKFLOW_STATES = {

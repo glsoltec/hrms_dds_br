@@ -157,7 +157,7 @@ def _get_date_range(filters):
 
 def get_alert_days():
     try:
-        value = frappe.db.get_single_value("HRMS DDS BR Settings", "no_dds_alert_days")
+        value = frappe.conf.get("dds_no_dds_alert_days")
     except Exception:
         value = None
     return 3 if value is None else int(value or 0)
