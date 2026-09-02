@@ -13,7 +13,7 @@
   "links": [
     {
       "link_type": "DocType",
-      "link_name": "DDS",
+      "link_to": "DDS",
       "label": "Registros de DDS",
       "dependencies": "",
       "hidden": 0,
@@ -22,7 +22,7 @@
     },
     {
       "link_type": "DocType",
-      "link_name": "DDS Tema",
+      "link_to": "DDS Tema",
       "label": "Temas de DDS",
       "dependencies": "",
       "hidden": 0,
@@ -31,7 +31,7 @@
     },
     {
       "link_type": "Report",
-      "link_name": "Employee DDS History",
+      "link_to": "Employee DDS History",
       "label": "Histórico de DDS do Empregado",
       "dependencies": "",
       "hidden": 0,
@@ -40,7 +40,7 @@
     },
     {
       "link_type": "Report",
-      "link_name": "DDS Dashboard",
+      "link_to": "DDS Dashboard",
       "label": "Painel de DDS",
       "dependencies": "",
       "hidden": 0,

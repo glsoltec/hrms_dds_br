@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.4 - 2026-09-02
+
+- Corrigidos os destinos dos links do workspace `DDS` para Frappe v16.
+
 ## 1.4.3 - 2026-09-02
 
 - Criado o workspace `DDS` na rota `/desk/dds`.
