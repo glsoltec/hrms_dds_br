@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.24 - 2026-09-02
+
+- System Manager e Administrator podem excluir DDS (inclusive enviado/cancelado) sem informar motivo.
+
 ## 1.4.23 - 2026-09-02
 
 - Adicionada notificação aos participantes no envio do DDS.

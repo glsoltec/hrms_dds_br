@@ -89,7 +89,11 @@ class DDS(Document):
                 )
 
     def on_trash(self):
-        if self.docstatus != 0:
+        roles = set(frappe.get_roles())
+        can_delete_any = (
+            frappe.session.user == "Administrator" or "System Manager" in roles
+        )
+        if not can_delete_any and self.docstatus != 0:
             frappe.throw(
                 _("Não é possível excluir fisicamente um DDS enviado ou cancelado. Use o cancelamento formal.")
             )
