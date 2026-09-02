@@ -2,7 +2,7 @@
 
 Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil, integrado ao **HRMS** do ERPNext/Frappe.
 
-Versão atual: `1.1.0`.
+Versão atual: `1.2.0`.
 
 ### Recursos
 
@@ -16,6 +16,7 @@ Versão atual: `1.1.0`.
 - **Integração HRMS:** botão _Histórico de DDS_ no formulário do `Employee`.
 - **Relatório `Employee DDS History`**: histórico de participação por empregado, com isolamento de acesso por participante/responsável no servidor.
 - Link **Histórico de DDS** adicionado ao workspace HRMS **Shift & Attendance**, onde os colaboradores acessam o ponto.
+- Link **Histórico de DDS** exibido também na tela de autoatendimento HRMS `/hrms/home`, junto aos atalhos rápidos.
 - Papéis `Safety Manager` e `Safety Supervisor`.
 - Workspace _Segurança do Trabalho_ e formato de impressão `DDS`.
 
