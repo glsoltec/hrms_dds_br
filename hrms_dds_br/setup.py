@@ -30,6 +30,20 @@ def ensure_workflow_masters():
             ).insert(ignore_permissions=True)
 
 
+def ensure_dds_settings():
+    doctype = "HRMS DDS BR Settings"
+    if not frappe.db.exists("DocType", doctype) or frappe.db.exists(doctype, doctype):
+        return
+
+    settings = frappe.new_doc(doctype)
+    settings.name = doctype
+    settings.allow_retroactive_days = 1
+    settings.allow_future_days = 0
+    settings.no_dds_alert_days = 3
+    settings.flags.ignore_mandatory = True
+    settings.insert(ignore_permissions=True)
+
+
 def inject_hrms_home_asset(response=None, request=None):
     if not response or not request or not (
         request.path == "/hrms" or request.path.startswith("/hrms/")
