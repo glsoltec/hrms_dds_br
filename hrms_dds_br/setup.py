@@ -79,6 +79,7 @@ def after_migrate():
     frappe.cache.delete_value("doctype_modules")
     ensure_default_topics()
     sync_dds_workspace_links()
+    sync_sst_workspace_and_sidebar()
 
 
 def sync_dds_workspace_links():
@@ -146,6 +147,110 @@ def sync_dds_workspace_links():
 
     if changed:
         workspace.save(ignore_permissions=True)
+
+
+def _normalize_workspace_content(workspace):
+    original = workspace.content
+    if isinstance(original, str):
+        try:
+            content = json.loads(original or "[]")
+        except json.JSONDecodeError:
+            content = []
+    else:
+        content = original or []
+    if not isinstance(content, list):
+        content = []
+    workspace.content = json.dumps(content, ensure_ascii=False)
+    return workspace.content != original
+
+
+def _ensure_workspace_links(workspace, links):
+    valid_targets = {target for _lt, target, *_rest in links}
+    existing = list(workspace.links)
+    workspace.links = [link for link in workspace.links if link.link_to in valid_targets]
+    changed = _normalize_workspace_content(workspace) or len(workspace.links) != len(existing)
+    for index, (link_type, link_to, label, is_query_report, group) in enumerate(links):
+        link = next(
+            (item for item in workspace.links if item.link_type == link_type and item.link_to == link_to),
+            None,
+        )
+        if link is None:
+            link = workspace.append("links", {})
+            changed = True
+        values = {
+            "link_type": link_type,
+            "link_to": link_to,
+            "label": label,
+            "is_query_report": is_query_report,
+            "group": group,
+            "hidden": 0,
+            "onboard": 0,
+        }
+        for field, value in values.items():
+            if getattr(link, field, None) != value:
+                setattr(link, field, value)
+                changed = True
+        if link.idx != index + 1:
+            link.idx = index + 1
+            changed = True
+    return changed
+
+
+def _ensure_sidebar_items(sidebar, items):
+    existing = list(sidebar.items)
+    valid_labels = {label for label in items}
+    sidebar.items = [item for item in sidebar.items if item.label in valid_labels]
+    changed = len(sidebar.items) != len(existing)
+    for index, (label, link_type, link_to) in enumerate(items):
+        item = next(
+            (i for i in sidebar.items if i.label == label),
+            None,
+        )
+        if item is None:
+            item = sidebar.append("items", {})
+            changed = True
+        if getattr(item, "label", None) != label:
+            item.label = label
+            changed = True
+        if getattr(item, "link_type", None) != link_type:
+            item.link_type = link_type
+            changed = True
+        if getattr(item, "link_to", None) != link_to:
+            item.link_to = link_to
+            changed = True
+        if getattr(item, "type", None) != "Link":
+            item.type = "Link"
+            changed = True
+        if item.idx != index + 1:
+            item.idx = index + 1
+            changed = True
+    return changed
+
+
+def sync_sst_workspace_and_sidebar():
+    workspace = frappe.db.exists("Workspace", "Seguranca do Trabalho")
+    if workspace:
+        workspace = frappe.get_doc("Workspace", "Seguranca do Trabalho")
+        links = [
+            ("DocType", "DDS", "Registros de DDS", 0, "Cadastros"),
+            ("DocType", "DDS Tema", "Temas de DDS", 0, "Cadastros"),
+            ("Report", "Employee DDS History", "Histórico de DDS do Empregado", 1, "Relatórios"),
+            ("Report", "DDS Dashboard", "Painel de DDS", 1, "Relatórios"),
+        ]
+        if _ensure_workspace_links(workspace, links):
+            workspace.save(ignore_permissions=True)
+
+    sidebar = frappe.db.exists("Workspace Sidebar", "Segurança do Trabalho")
+    if sidebar:
+        sidebar = frappe.get_doc("Workspace Sidebar", "Segurança do Trabalho")
+        items = [
+            ("Home", "Workspace", "Seguranca do Trabalho"),
+            ("DDS", "DocType", "DDS"),
+            ("DDS Tema", "DocType", "DDS Tema"),
+            ("Employee DDS History", "Report", "Employee DDS History"),
+        ]
+        if _ensure_sidebar_items(sidebar, items):
+            sidebar.save(ignore_permissions=True)
 
 
 def inject_hrms_home_asset(response=None, request=None):
