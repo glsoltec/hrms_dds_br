@@ -195,7 +195,8 @@
     {
       "fieldname": "correction_section",
       "fieldtype": "Section Break",
-      "label": "Correção"
+      "label": "Correção",
+      "depends_on": "eval:doc.is_correction"
     },
     {
       "fieldname": "is_correction",
@@ -206,12 +207,14 @@
       "fieldname": "original_dds",
       "fieldtype": "Link",
       "label": "DDS original",
-      "options": "DDS"
+      "options": "DDS",
+      "depends_on": "eval:doc.is_correction"
     },
     {
       "fieldname": "correction_reason",
       "fieldtype": "Small Text",
-      "label": "Motivo da correção"
+      "label": "Motivo da correção",
+      "depends_on": "eval:doc.is_correction"
     },
     {
       "fieldname": "cancellation_section",

@@ -13,6 +13,12 @@ frappe.ui.form.on("DDS Participante", {
 });
 
 frappe.ui.form.on("DDS", {
+	is_correction(frm) {
+		frm.refresh_field("correction_section");
+		frm.refresh_field("original_dds");
+		frm.refresh_field("correction_reason");
+	},
+
 	refresh(frm) {
 		if (frm.is_new()) {
 			return;
