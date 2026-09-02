@@ -76,6 +76,62 @@ def after_migrate():
     sync_employee_dds_report_roles()
     frappe.cache.delete_value("doctype_modules")
     ensure_default_topics()
+    sync_dds_workspace_links()
+
+
+def sync_dds_workspace_links():
+    workspace_name = "DDS"
+    workspace = frappe.db.exists("Workspace", workspace_name)
+    if not workspace:
+        return
+
+    workspace = frappe.get_doc("Workspace", workspace_name)
+    valid_targets = {"DDS", "DDS Tema", "Employee DDS History", "DDS Dashboard"}
+    existing_links = list(workspace.links)
+    workspace.links = [
+        link
+        for link in workspace.links
+        if link.link_to in valid_targets
+    ]
+    links = [
+        ("DocType", "DDS", "Registros de DDS", 0, "Cadastros"),
+        ("DocType", "DDS Tema", "Temas de DDS", 0, "Cadastros"),
+        ("Report", "Employee DDS History", "Histórico de DDS do Empregado", 1, "Relatórios"),
+        ("Report", "DDS Dashboard", "Painel de DDS", 1, "Relatórios"),
+    ]
+
+    changed = len(workspace.links) != len(existing_links)
+    for index, (link_type, link_to, label, is_query_report, group) in enumerate(links):
+        link = next(
+            (
+                item
+                for item in workspace.links
+                if item.link_type == link_type and item.link_to == link_to
+            ),
+            None,
+        )
+        if link is None:
+            link = workspace.append("links", {})
+            changed = True
+        values = {
+            "link_type": link_type,
+            "link_to": link_to,
+            "label": label,
+            "is_query_report": is_query_report,
+            "group": group,
+            "hidden": 0,
+            "onboard": 0,
+        }
+        for field, value in values.items():
+            if getattr(link, field, None) != value:
+                setattr(link, field, value)
+                changed = True
+        if link.idx != index + 1:
+            link.idx = index + 1
+            changed = True
+
+    if changed:
+        workspace.save(ignore_permissions=True)
 
 
 def inject_hrms_home_asset(response=None, request=None):

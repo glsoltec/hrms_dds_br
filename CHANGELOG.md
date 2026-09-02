@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.5 - 2026-09-02
+
+- Corrigidos os destinos dos links do workspace `DDS` no Frappe v16.
+- Removidos links antigos sem destino durante a sincronização pós-migração.
+
 ## 1.4.4 - 2026-09-02
 
 - Corrigidos os destinos dos links do workspace `DDS` para Frappe v16.
