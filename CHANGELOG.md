@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.19 - 2026-09-02
+
+- Corrigida a permissão de criação para papéis privilegiados (o hook `has_permission` retornava `None`, que era tratado como bloqueio).
+
 ## 1.4.18 - 2026-09-02
 
 - Removido o workspace `DDS`. O acesso ao DocType `DDS` é feito pela lista `/app/dds`.

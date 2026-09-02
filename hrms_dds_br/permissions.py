@@ -37,7 +37,7 @@ def dds_has_permission(doc, user=None, permission_type=None):
     user = user or frappe.session.user
     roles = set(frappe.get_roles(user))
     if roles & PRIVILEGED_ROLES:
-        return None
+        return True
 
     if "Responsavel DDS" in roles and permission_type == "create":
         return True
