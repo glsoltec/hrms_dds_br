@@ -1,0 +1,23 @@
+{
+  "align_labels_right": 0,
+  "creation": "2026-08-04 00:00:00.000000",
+  "custom_format": 1,
+  "disabled": 0,
+  "doc_type": "DDS",
+  "docstatus": 0,
+  "doctype": "Print Format",
+  "font": "Default",
+  "html": "<div class=\"text-center\"><h2>DDS - Diálogo Diário de Segurança</h2><p><strong>{{ doc.name|e }}</strong></p></div><table class=\"table table-bordered\"><tr><th>Data/Hora</th><td>{{ doc.get_formatted(\"date\") }} {{ doc.get_formatted(\"time\") }}</td><th>Tema</th><td>{{ doc.topic|e }}</td></tr><tr><th>Projeto/Obra</th><td>{{ doc.project|e }}</td><th>Cliente</th><td>{{ doc.customer|e }}</td></tr><tr><th>Empresa</th><td>{{ doc.company|e }}</td><th>Local</th><td>{{ doc.location|e }}</td></tr><tr><th>Responsável</th><td colspan=\"3\">{{ doc.responsible|e }}</td></tr></table><h4>Conteúdo</h4><p><strong>Objetivo:</strong><br>{{ doc.objective|e if doc.objective else \"\" }}</p><p><strong>Riscos abordados:</strong><br>{{ doc.risks_addressed|e if doc.risks_addressed else \"\" }}</p><p><strong>Medidas preventivas:</strong><br>{{ doc.preventive_measures|e if doc.preventive_measures else \"\" }}</p>{% if doc.observations %}<p><strong>Observações:</strong><br>{{ doc.observations|e }}</p>{% endif %}<h4>Participantes</h4><table class=\"table table-bordered\"><thead><tr><th>Colaborador</th><th>Função</th><th>Presente</th><th>Assinatura e coleta</th><th>Observação</th></tr></thead><tbody>{% for row in doc.participants %}<tr><td>{{ row.employee|e }}</td><td>{{ row.designation|e if row.designation else \"\" }}</td><td>{{ \"Sim\" if row.present else \"Não\" }}</td><td>{% if row.signature %}<img src=\"{{ row.signature }}\" style=\"max-height:60px;max-width:180px\"><br><small>Coletada por {{ row.signature_collected_by|e if row.signature_collected_by else \"\" }} em {{ frappe.utils.format_datetime(row.signature_collected_at) if row.signature_collected_at else \"\" }}<br>Hash: {{ row.signature_hash|e if row.signature_hash else \"\" }}</small>{% endif %}</td><td>{{ row.observation|e if row.observation else \"\" }}</td></tr>{% endfor %}</tbody></table><div style=\"margin-top:30px\"><strong>Confirmação do responsável:</strong> {{ \"Sim\" if doc.responsible_confirmation else \"Não\" }}<br>{% if doc.responsible_signature %}<img src=\"{{ doc.responsible_signature }}\" style=\"max-height:80px;max-width:240px\"><br><small>Coletada por {{ doc.responsible_signature_collected_by|e if doc.responsible_signature_collected_by else \"\" }} em {{ frappe.utils.format_datetime(doc.responsible_signature_collected_at) if doc.responsible_signature_collected_at else \"\" }}<br>Hash: {{ doc.responsible_signature_hash|e if doc.responsible_signature_hash else \"\" }}</small><br>{% endif %}<span>{{ doc.responsible|e }}</span></div>{% if doc.photo %}<div style=\"margin-top:25px;page-break-inside:avoid\"><h4>Foto do DDS</h4><img src=\"{{ doc.photo }}\" style=\"max-width:100%;max-height:420px\"></div>{% endif %}",
+  "idx": 0,
+  "line_breaks": 0,
+  "modified": "2026-08-04 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "HRMS DDS BR",
+  "name": "DDS",
+  "owner": "Administrator",
+  "print_format_builder": 0,
+  "print_format_type": "Jinja",
+  "raw_printing": 0,
+  "show_section_headings": 0,
+  "standard": "Yes"
+}

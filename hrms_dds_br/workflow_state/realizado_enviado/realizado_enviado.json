@@ -1,0 +1,7 @@
+{
+ "doctype": "Workflow State",
+ "workflow_state_name": "Realizado/Enviado",
+ "style": "Success",
+ "module": "HRMS DDS BR",
+ "name": "Realizado/Enviado"
+}

@@ -1,0 +1,6 @@
+{
+ "doctype": "Workflow Action Master",
+ "workflow_action_name": "Enviar",
+ "module": "HRMS DDS BR",
+ "name": "Enviar"
+}

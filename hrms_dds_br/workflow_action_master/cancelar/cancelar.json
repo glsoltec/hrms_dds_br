@@ -1,0 +1,6 @@
+{
+ "doctype": "Workflow Action Master",
+ "workflow_action_name": "Cancelar",
+ "module": "HRMS DDS BR",
+ "name": "Cancelar"
+}

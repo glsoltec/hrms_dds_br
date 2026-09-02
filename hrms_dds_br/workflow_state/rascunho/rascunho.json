@@ -1,0 +1,7 @@
+{
+ "doctype": "Workflow State",
+ "workflow_state_name": "Rascunho",
+ "style": "Warning",
+ "module": "HRMS DDS BR",
+ "name": "Rascunho"
+}

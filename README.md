@@ -1,32 +1,59 @@
 ### HRMS DDS BR
 
-Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil
+Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil, integrado ao **HRMS** do ERPNext/Frappe.
 
-### Installation
+### Recursos
 
-You can install this app using the [bench](https://github.com/frappe/bench) CLI:
+- DocType submetível `DDS`, com numeração `DDS-AAAA-00001` e workflow `Rascunho > Realizado/Enviado > Cancelado`.
+- Tabela filha `DDS Participante` com presença e assinatura.
+- Função do colaborador preenchida a partir de `Employee.designation`.
+- Cliente e empresa derivados do projeto, com validação de coerência.
+- Somente empregados ativos e da mesma empresa podem participar.
+- Coletor, data/hora e hash SHA-256 registrados para cada assinatura, com proteção contra adulteração dos metadados.
+- Validação no servidor de presença, assinatura dos presentes e confirmação/assinatura do responsável.
+- **Integração HRMS:** botão _Histórico de DDS_ no formulário do `Employee`.
+- **Relatório `Employee DDS History`**: histórico de participação por empregado, com isolamento de acesso por participante/responsável no servidor.
+- Papéis `Safety Manager` e `Safety Supervisor`.
+- Workspace _Segurança do Trabalho_ e formato de impressão `DDS`.
+
+### Dependências
+
+O app requer o **HRMS** (e o ERPNext, base do HRMS) instalados no site antes do `hrms_dds_br`:
 
 ```bash
-cd $PATH_TO_YOUR_BENCH
-bench get-app $URL_OF_THIS_REPO --branch version-16
-bench install-app hrms_dds_br
+bench --site seu-site install-app hrms
+bench --site seu-site install-app hrms_dds_br
 ```
 
-### Contributing
+### Instalação
 
-This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
+No servidor Bench, a partir da pasta do bench:
 
 ```bash
-cd apps/hrms_dds_br
-pre-commit install
+bench get-app git@github.com:glsoltec/hrms_dds_br.git --branch version-16
+bench --site seu-site install-app hrms_dds_br
+bench --site seu-site migrate
+bench --site seu-site clear-cache
 ```
 
-Pre-commit is configured to use the following tools for checking and formatting your code:
+### Regras de acesso
 
-- ruff
-- eslint
-- prettier
-- pyupgrade
+- `System Manager`: administração completa.
+- `Safety Manager`: criar, editar, enviar, cancelar, excluir e imprimir.
+- `Safety Supervisor`: criar, editar, enviar e imprimir; não cancela nem exclui.
+- `HR Manager`: leitura e impressão para conferência funcional; não altera nem cancela DDS.
+- `Employee`: leitura e impressão somente dos DDS em que aparece como responsável ou participante, usando o vínculo `Employee.user_id`.
+
+As assinaturas usam o campo nativo `Signature`. O sistema registra quem coletou, quando ocorreu a coleta e o hash do desenho. Isso melhora a rastreabilidade, mas não prova que o usuário autenticado é o próprio participante e não equivale a assinatura digital ICP-Brasil.
+
+### Homologação
+
+```bash
+bench --site seu-site migrate
+bench --site seu-site run-tests --app hrms_dds_br
+```
+
+Homologue criação, envio, cancelamento, impressão/PDF, controle de acesso da foto, alteração de assinatura, empregado inativo, divergência de empresa, isolamento do relatório (participante, responsável, não participante e gestor) e o botão _Histórico de DDS_ no `Employee`.
 
 ### License
 
