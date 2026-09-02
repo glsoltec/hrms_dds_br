@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.21 - 2026-09-02
+
+- Corrigido o erro de metadados da assinatura no envio: quando a assinatura não muda, os metadados são mantidos do banco (ignora reenvio do formulário).
+
 ## 1.4.20 - 2026-09-02
 
 - Corrigida a validação dos metadados da assinatura do responsável no envio (primeiro registro).

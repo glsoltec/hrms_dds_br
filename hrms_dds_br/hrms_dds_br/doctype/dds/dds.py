@@ -164,7 +164,8 @@ class DDS(Document):
         } if previous else {}
 
         for row in self.participants:
-            old_signature = getattr(previous_rows.get(row.name), "signature", None)
+            old_row = previous_rows.get(row.name)
+            old_signature = getattr(old_row, "signature", None) if old_row else None
             if row.signature and row.signature != old_signature:
                 row.signature_collected_by = frappe.session.user
                 row.signature_collected_at = now_datetime()
@@ -173,6 +174,10 @@ class DDS(Document):
                 row.signature_collected_by = None
                 row.signature_collected_at = None
                 row.signature_hash = None
+            elif old_row:
+                row.signature_collected_by = old_row.signature_collected_by
+                row.signature_collected_at = old_row.signature_collected_at
+                row.signature_hash = old_row.signature_hash
 
         old_responsible_signature = (
             previous.responsible_signature if previous else None
@@ -185,6 +190,10 @@ class DDS(Document):
             self.responsible_signature_collected_by = None
             self.responsible_signature_collected_at = None
             self.responsible_signature_hash = None
+        elif previous:
+            self.responsible_signature_collected_by = previous.responsible_signature_collected_by
+            self.responsible_signature_collected_at = previous.responsible_signature_collected_at
+            self.responsible_signature_hash = previous.responsible_signature_hash
 
     def _validate_submitted_immutability(self):
         previous = self.get_doc_before_save()
