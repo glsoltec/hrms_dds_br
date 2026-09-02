@@ -91,6 +91,7 @@ def after_migrate():
     frappe.cache.delete_value("doctype_modules")
     ensure_default_topics()
     ensure_dds_roles()
+    ensure_dds_charts_and_cards()
     sync_dds_workspace_links()
     sync_sst_workspace_and_sidebar()
 

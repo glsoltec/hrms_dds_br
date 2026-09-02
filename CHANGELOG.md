@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.16 - 2026-09-02
+
+- Corrigida a ordem de criação dos gráficos/cards antes da sincronização dos workspaces.
+
 ## 1.4.15 - 2026-09-02
 
 - Ampliado o dashboard de DDS com gráficos por Tema, Projeto e Situação e card `DDS Rascunho`.
