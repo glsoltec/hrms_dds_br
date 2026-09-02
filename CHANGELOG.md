@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.7 - 2026-09-02
+
+- Tratada a normalização de conteúdo inválido do workspace antes da sincronização dos links.
+
 ## 1.4.6 - 2026-09-02
 
 - Normalizado o conteúdo do workspace antes de sincronizar links no Frappe v16.

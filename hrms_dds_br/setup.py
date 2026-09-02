@@ -88,8 +88,16 @@ def sync_dds_workspace_links():
         return
 
     workspace = frappe.get_doc("Workspace", workspace_name)
+    content_changed = False
     if isinstance(workspace.content, str):
-        workspace.content = json.loads(workspace.content or "[]")
+        try:
+            workspace.content = json.loads(workspace.content or "[]")
+        except json.JSONDecodeError:
+            workspace.content = []
+        content_changed = True
+    if not isinstance(workspace.content, list):
+        workspace.content = []
+        content_changed = True
     valid_targets = {"DDS", "DDS Tema", "Employee DDS History", "DDS Dashboard"}
     existing_links = list(workspace.links)
     workspace.links = [
@@ -104,7 +112,7 @@ def sync_dds_workspace_links():
         ("Report", "DDS Dashboard", "Painel de DDS", 1, "Relatórios"),
     ]
 
-    changed = len(workspace.links) != len(existing_links)
+    changed = content_changed or len(workspace.links) != len(existing_links)
     for index, (link_type, link_to, label, is_query_report, group) in enumerate(links):
         link = next(
             (
