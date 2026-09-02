@@ -2,7 +2,7 @@
 
 Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil, integrado ao **HRMS** do ERPNext/Frappe.
 
-Versão atual: `1.3.7`.
+Versão atual: `1.3.8`.
 
 ### Recursos
 
