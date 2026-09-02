@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.3 - 2026-09-02
+
+- Criado o workspace `DDS` na rota `/desk/dds`.
+- Adicionados atalhos para `DDS`, `DDS Tema`, `Employee DDS History` e `DDS Dashboard`.
+
 ## 1.4.2 - 2026-09-02
 
 - Preparados metadados e documentação para publicação no Frappe Marketplace.

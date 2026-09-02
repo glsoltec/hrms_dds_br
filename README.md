@@ -6,7 +6,7 @@ Aplicativo Frappe/ERPNext para registro, assinatura e acompanhamento de Diálogo
 
 O HRMS DDS BR registra a realização do DDS, os riscos abordados, as medidas preventivas, os participantes, a presença e as assinaturas coletadas. A solução foi desenhada para uso em obras, projetos e operações com empregados cadastrados no HRMS.
 
-Versão atual: `1.4.2`.
+Versão atual: `1.4.3`.
 
 ## Compatibilidade
 
@@ -36,7 +36,8 @@ O app requer ERPNext e HRMS instalados no site antes da instalação do HRMS DDS
 - Painel `DDS Dashboard` com indicadores, gráfico mensal e alerta de projetos sem DDS recente.
 - Link de acesso na tela HRMS `/hrms/home`.
 - Botão de histórico no formulário `Employee`.
-- Workspace `Segurança do Trabalho` e Print Format `DDS`.
+- Workspaces `DDS` e `Segurança do Trabalho`, com atalhos para cadastro, temas e relatórios.
+- Print Format `DDS`.
 
 ## Instalação pelo Bench
 
