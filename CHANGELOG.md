@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.15 - 2026-09-02
+
+- Ampliado o dashboard de DDS com gráficos por Tema, Projeto e Situação e card `DDS Rascunho`.
+
 ## 1.4.14 - 2026-09-02
 
 - Preenchido o workspace `DDS` com atalhos, number cards e gráfico (não exibe mais "Bem-vindo").

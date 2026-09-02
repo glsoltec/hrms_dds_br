@@ -389,6 +389,21 @@ def ensure_dds_charts_and_cards():
             "module": "HRMS DDS BR",
         },
     )
+    _ensure_number_card(
+        "DDS Rascunho",
+        {
+            "doctype": "Number Card",
+            "name": "DDS Rascunho",
+            "label": "DDS Rascunho",
+            "type": "Document Type",
+            "document_type": "DDS",
+            "function": "Count",
+            "filters_json": '[["workflow_state","=","Rascunho"]]',
+            "stats_time_interval": "Daily",
+            "is_public": 1,
+            "module": "HRMS DDS BR",
+        },
+    )
     _ensure_dashboard_chart(
         "DDS por Mês",
         {
@@ -407,17 +422,70 @@ def ensure_dds_charts_and_cards():
             "module": "HRMS DDS BR",
         },
     )
+    _ensure_dashboard_chart(
+        "DDS por Tema",
+        {
+            "doctype": "Dashboard Chart",
+            "name": "DDS por Tema",
+            "chart_name": "DDS por Tema",
+            "chart_type": "Group By",
+            "document_type": "DDS",
+            "group_by_type": "Count",
+            "group_by_based_on": "topic",
+            "type": "Donut",
+            "filters_json": "[]",
+            "is_public": 1,
+            "module": "HRMS DDS BR",
+        },
+    )
+    _ensure_dashboard_chart(
+        "DDS por Projeto",
+        {
+            "doctype": "Dashboard Chart",
+            "name": "DDS por Projeto",
+            "chart_name": "DDS por Projeto",
+            "chart_type": "Group By",
+            "document_type": "DDS",
+            "group_by_type": "Count",
+            "group_by_based_on": "project",
+            "type": "Bar",
+            "filters_json": "[]",
+            "is_public": 1,
+            "module": "HRMS DDS BR",
+        },
+    )
+    _ensure_dashboard_chart(
+        "DDS por Situação",
+        {
+            "doctype": "Dashboard Chart",
+            "name": "DDS por Situação",
+            "chart_name": "DDS por Situação",
+            "chart_type": "Group By",
+            "document_type": "DDS",
+            "group_by_type": "Count",
+            "group_by_based_on": "workflow_state",
+            "type": "Donut",
+            "filters_json": "[]",
+            "is_public": 1,
+            "module": "HRMS DDS BR",
+        },
+    )
 
 
 def _ensure_workspace_charts_and_cards(workspace):
     chart_names = {item.chart_name for item in workspace.charts}
     card_names = {item.number_card_name for item in workspace.number_cards}
     changed = False
-    for name in ("DDS por Mês",):
+    for name in (
+        "DDS por Mês",
+        "DDS por Tema",
+        "DDS por Projeto",
+        "DDS por Situação",
+    ):
         if name not in chart_names:
             workspace.append("charts", {"chart_name": name})
             changed = True
-    for name in ("Total DDS", "DDS Enviados", "DDS Cancelados"):
+    for name in ("Total DDS", "DDS Enviados", "DDS Cancelados", "DDS Rascunho"):
         if name not in card_names:
             workspace.append(
                 "number_cards",
