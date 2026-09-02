@@ -1,7 +1,11 @@
 import frappe
 from frappe import _
+from frappe.utils import getdate
 
 from hrms_dds_br.permissions import PRIVILEGED_ROLES
+
+
+MAX_ROWS = 5000
 
 
 def execute(filters=None):
@@ -13,6 +17,11 @@ def execute(filters=None):
 
 
 def validate_filters(filters):
+    if bool(filters.get("date_from")) != bool(filters.get("date_to")):
+        frappe.throw(_("Informe as datas inicial e final juntas."))
+    if filters.get("date_from") and getdate(filters["date_from"]) > getdate(filters["date_to"]):
+        frappe.throw(_("A data inicial não pode ser posterior à data final."))
+
     user = frappe.session.user
     roles = set(frappe.get_roles(user))
     if roles & PRIVILEGED_ROLES:
@@ -82,6 +91,19 @@ def get_columns():
     ]
 
 
+def get_report_filters(filters):
+    return {
+        key: value
+        for key, value in {
+            "date": ["between", [filters.get("date_from"), filters.get("date_to")]],
+            "project": filters.get("project"),
+            "topic": filters.get("topic"),
+            "workflow_state": filters.get("workflow_state"),
+        }.items()
+        if value and (key != "date" or all(value[1]))
+    }
+
+
 def get_data(filters):
     employee = filters.get("employee")
     privileged = is_privileged()
@@ -91,7 +113,7 @@ def get_data(filters):
 
     dds_list = frappe.get_all(
         "DDS",
-        filters={"docstatus": ["<", 2]},
+        filters={"docstatus": ["<", 2], **get_report_filters(filters)},
         fields=[
             "name",
             "date",
@@ -103,11 +125,20 @@ def get_data(filters):
             "workflow_state",
         ],
         order_by="date desc, name desc",
+        limit_page_length=MAX_ROWS + 1,
     )
+    if len(dds_list) > MAX_ROWS:
+        frappe.throw(
+            _("O relatório excede o limite de {0} registros. Informe filtros mais específicos.").format(
+                MAX_ROWS
+            )
+        )
 
     rows = []
+    dds_names = [dds.name for dds in dds_list]
+    participants_by_parent = get_participants(dds_names)
     for dds in dds_list:
-        participants = get_participants(dds.name)
+        participants = participants_by_parent.get(dds.name, [])
         matches = select_matches(dds, participants, employee, privileged, own_employees)
         for p in matches:
             rows.append(
@@ -125,26 +156,40 @@ def get_data(filters):
                     "signed": _("Sim") if p.get("signed") else _("Não"),
                 }
             )
+            if len(rows) > MAX_ROWS:
+                frappe.throw(
+                    _("O relatório excede o limite de {0} linhas. Informe filtros mais específicos.").format(
+                        MAX_ROWS
+                    )
+                )
 
     return rows
 
 
-def get_participants(parent):
+def get_participants(parents):
+    if not parents:
+        return {}
+
     participante = frappe.qb.DocType("DDS Participante")
-    return (
+    participants = (
         frappe.qb.from_(participante)
         .select(
+            participante.parent,
             participante.employee,
             participante.present,
             participante.signature.isnotnull().as_("signed"),
         )
         .where(
-            (participante.parent == parent)
+            participante.parent.isin(parents)
             & (participante.parenttype == "DDS")
         )
         .orderby(participante.idx)
         .run(as_dict=True)
     )
+    grouped = {}
+    for participant in participants:
+        grouped.setdefault(participant["parent"], []).append(participant)
+    return grouped
 
 
 def select_matches(dds, participants, employee, privileged, own_employees):

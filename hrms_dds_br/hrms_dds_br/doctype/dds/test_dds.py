@@ -58,3 +58,15 @@ class TestDDS(FrappeTestCase):
         finally:
             frappe.get_roles = original_get_roles
             frappe.get_all = original_get_all
+
+    def test_submitted_dds_cannot_be_changed(self):
+        doc = frappe.new_doc("DDS")
+        previous = frappe.new_doc("DDS")
+        previous.docstatus = 1
+        previous.topic = "EPI"
+        doc.docstatus = 1
+        doc.topic = "Eletricidade"
+        doc.get_doc_before_save = lambda: previous
+
+        with self.assertRaises(frappe.ValidationError):
+            doc._validate_submitted_immutability()

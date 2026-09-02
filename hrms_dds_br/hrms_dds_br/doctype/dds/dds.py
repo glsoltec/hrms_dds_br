@@ -10,6 +10,7 @@ class DDS(Document):
     def validate(self):
         self._set_project_data()
         self._validate_employees()
+        self._validate_submitted_immutability()
         self._fill_employee_designations()
         self._record_signature_evidence()
         self._validate_signature_evidence()
@@ -106,6 +107,55 @@ class DDS(Document):
             self.responsible_signature_collected_by = None
             self.responsible_signature_collected_at = None
             self.responsible_signature_hash = None
+
+    def _validate_submitted_immutability(self):
+        previous = self.get_doc_before_save()
+        if not previous or previous.docstatus != 1 or self.docstatus == 2:
+            return
+
+        immutable_fields = (
+            "date",
+            "time",
+            "project",
+            "customer",
+            "company",
+            "location",
+            "responsible",
+            "topic",
+            "objective",
+            "risks_addressed",
+            "preventive_measures",
+            "observations",
+            "responsible_confirmation",
+            "responsible_signature",
+            "responsible_signature_collected_by",
+            "responsible_signature_collected_at",
+            "responsible_signature_hash",
+            "photo",
+        )
+        if any(getattr(self, field) != getattr(previous, field) for field in immutable_fields):
+            frappe.throw(_("Um DDS enviado não pode ser alterado. Cancele-o e registre um novo DDS."))
+
+        participant_fields = (
+            "employee",
+            "designation",
+            "present",
+            "signature",
+            "signature_collected_by",
+            "signature_collected_at",
+            "signature_hash",
+            "observation",
+        )
+        current_participants = [
+            tuple(getattr(row, field) for field in participant_fields)
+            for row in self.participants
+        ]
+        previous_participants = [
+            tuple(getattr(row, field) for field in participant_fields)
+            for row in previous.participants
+        ]
+        if current_participants != previous_participants:
+            frappe.throw(_("Os participantes de um DDS enviado não podem ser alterados."))
 
     def _validate_signature_evidence(self):
         previous = self.get_doc_before_save()

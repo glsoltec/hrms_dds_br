@@ -44,6 +44,8 @@ bench --site seu-site clear-cache
 - `HR Manager`: leitura e impressão para conferência funcional; não altera nem cancela DDS.
 - `Employee`: leitura e impressão somente dos DDS em que aparece como responsável ou participante, usando o vínculo `Employee.user_id`.
 
+Após o envio, o DDS é imutável. Para corrigir um registro, cancele-o com a justificativa operacional definida pela organização e registre um novo DDS. A permissão de edição exibida no workflow não substitui essa regra server-side.
+
 As assinaturas usam o campo nativo `Signature`. O sistema registra quem coletou, quando ocorreu a coleta e o hash do desenho. Isso melhora a rastreabilidade, mas não prova que o usuário autenticado é o próprio participante e não equivale a assinatura digital ICP-Brasil.
 
 ### Homologação
@@ -54,6 +56,10 @@ bench --site seu-site run-tests --app hrms_dds_br
 ```
 
 Homologue criação, envio, cancelamento, impressão/PDF, controle de acesso da foto, alteração de assinatura, empregado inativo, divergência de empresa, isolamento do relatório (participante, responsável, não participante e gestor) e o botão _Histórico de DDS_ no `Employee`.
+
+### Retenção e privacidade
+
+A organização deve definir e documentar o prazo de retenção dos DDS, fotos, assinaturas, logs e backups, além do processo de exportação, correção e eliminação conforme a legislação aplicável. O app não presume base legal nem prazo de retenção. O PDF operacional não exibe hash, coletor ou data/hora técnica da assinatura; esses dados permanecem no registro para auditoria interna.
 
 ### License
 
