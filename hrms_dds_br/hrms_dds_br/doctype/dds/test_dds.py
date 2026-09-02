@@ -1,7 +1,7 @@
 import frappe
 from frappe.tests.utils import FrappeTestCase
 
-from hrms_dds_br.doctype.dds.dds import signature_digest
+from hrms_dds_br.hrms_dds_br.doctype.dds.dds import signature_digest
 from hrms_dds_br.permissions import dds_has_permission
 
 

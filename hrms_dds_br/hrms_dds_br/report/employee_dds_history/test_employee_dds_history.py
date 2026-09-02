@@ -1,7 +1,7 @@
 import frappe
 from frappe.tests.utils import FrappeTestCase
 
-from hrms_dds_br.report.employee_dds_history.employee_dds_history import (
+from hrms_dds_br.hrms_dds_br.report.employee_dds_history.employee_dds_history import (
     get_columns,
     select_matches,
     validate_filters,
