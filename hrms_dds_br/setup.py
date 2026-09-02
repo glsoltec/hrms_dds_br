@@ -227,6 +227,75 @@ def _ensure_sidebar_items(sidebar, items):
     return changed
 
 
+def _ensure_workspace_shortcuts(workspace):
+    existing = list(workspace.shortcuts)
+    valid_labels = {"DDS", "DDS Tema"}
+    workspace.shortcuts = [s for s in workspace.shortcuts if s.label in valid_labels]
+    changed = len(workspace.shortcuts) != len(existing)
+    config = {
+        "DDS": {"color": "Green", "link_to": "DDS"},
+        "DDS Tema": {"color": "Blue", "link_to": "DDS Tema"},
+    }
+    for label, conf in config.items():
+        shortcut = next((s for s in workspace.shortcuts if s.label == label), None)
+        if shortcut is None:
+            shortcut = workspace.append("shortcuts", {})
+            changed = True
+        if getattr(shortcut, "label", None) != label:
+            shortcut.label = label
+            changed = True
+        if getattr(shortcut, "link_to", None) != conf["link_to"]:
+            shortcut.link_to = conf["link_to"]
+            changed = True
+        if getattr(shortcut, "type", None) != "DocType":
+            shortcut.type = "DocType"
+            changed = True
+        if getattr(shortcut, "color", None) != conf["color"]:
+            shortcut.color = conf["color"]
+            changed = True
+        if getattr(shortcut, "doc_view", None) != "List":
+            shortcut.doc_view = "List"
+            changed = True
+    return changed
+
+
+def _rebuild_sst_content(workspace):
+    shortcut_names = {
+        shortcut.label: shortcut.name
+        for shortcut in workspace.shortcuts
+    }
+    content = [
+        {
+            "id": "dds_header",
+            "type": "header",
+            "data": {
+                "text": "<span class=\"h4\">Segurança do Trabalho</span>",
+                "col": 12,
+            },
+        },
+    ]
+    if shortcut_names.get("DDS"):
+        content.append(
+            {
+                "id": "dds_shortcut",
+                "type": "shortcut",
+                "data": {"shortcut_name": shortcut_names["DDS"], "col": 4},
+            }
+        )
+    if shortcut_names.get("DDS Tema"):
+        content.append(
+            {
+                "id": "dds_tema_shortcut",
+                "type": "shortcut",
+                "data": {"shortcut_name": shortcut_names["DDS Tema"], "col": 4},
+            }
+        )
+    new_content = json.dumps(content, ensure_ascii=False)
+    changed = workspace.content != new_content
+    workspace.content = new_content
+    return changed
+
+
 def sync_sst_workspace_and_sidebar():
     workspace = frappe.db.exists("Workspace", "Seguranca do Trabalho")
     if workspace:
@@ -237,7 +306,12 @@ def sync_sst_workspace_and_sidebar():
             ("Report", "Employee DDS History", "Histórico de DDS do Empregado", 1, "Relatórios"),
             ("Report", "DDS Dashboard", "Painel de DDS", 1, "Relatórios"),
         ]
-        if _ensure_workspace_links(workspace, links):
+        content_changed = _rebuild_sst_content(workspace)
+        shortcuts_changed = _ensure_workspace_shortcuts(workspace)
+        links_changed = _ensure_workspace_links(workspace, links)
+        if shortcuts_changed or links_changed:
+            content_changed = _rebuild_sst_content(workspace)
+        if content_changed or shortcuts_changed or links_changed:
             workspace.save(ignore_permissions=True)
 
     sidebar = frappe.db.exists("Workspace Sidebar", "Segurança do Trabalho")

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.10 - 2026-09-02
+
+- Corrigido o atalho `DDS` em branco no workspace `Segurança do Trabalho`.
+
 ## 1.4.9 - 2026-09-02
 
 - Adicionados atalhos de `DDS`, `DDS Tema`, `Employee DDS History` e `DDS Dashboard` ao workspace e à sidebar `Segurança do Trabalho`.
