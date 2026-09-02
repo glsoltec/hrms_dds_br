@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.14 - 2026-09-02
+
+- Preenchido o workspace `DDS` com atalhos, number cards e gráfico (não exibe mais "Bem-vindo").
+
 ## 1.4.13 - 2026-09-02
 
 - Corrigido o intervalo de tempo do gráfico `DDS por Mês`.

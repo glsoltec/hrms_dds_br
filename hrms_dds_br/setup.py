@@ -102,18 +102,9 @@ def sync_dds_workspace_links():
         return
 
     workspace = frappe.get_doc("Workspace", workspace_name)
-    original_content = workspace.content
-    if isinstance(original_content, str):
-        try:
-            content = json.loads(original_content or "[]")
-        except json.JSONDecodeError:
-            content = []
-    else:
-        content = original_content or []
-    if not isinstance(content, list):
-        content = []
-    workspace.content = json.dumps(content, ensure_ascii=False)
-    content_changed = workspace.content != original_content
+    shortcuts_changed = _ensure_workspace_shortcuts(workspace)
+    charts_changed = _ensure_workspace_charts_and_cards(workspace)
+    content_changed = _rebuild_dds_content(workspace)
     valid_targets = {"DDS", "DDS Tema", "Employee DDS History", "DDS Dashboard"}
     existing_links = list(workspace.links)
     workspace.links = [
@@ -128,7 +119,12 @@ def sync_dds_workspace_links():
         ("Report", "DDS Dashboard", "Painel de DDS", 1, "Relatórios"),
     ]
 
-    changed = content_changed or len(workspace.links) != len(existing_links)
+    changed = (
+        content_changed
+        or shortcuts_changed
+        or charts_changed
+        or len(workspace.links) != len(existing_links)
+    )
     changed = _ensure_workspace_roles(workspace, ["Responsavel DDS"]) or changed
     for index, (link_type, link_to, label, is_query_report, group) in enumerate(links):
         link = next(
@@ -270,6 +266,33 @@ def _ensure_workspace_shortcuts(workspace):
         if getattr(shortcut, "doc_view", None) != "List":
             shortcut.doc_view = "List"
             changed = True
+    return changed
+
+
+def _rebuild_dds_content(workspace):
+    shortcut_names = {
+        shortcut.label: shortcut.name
+        for shortcut in workspace.shortcuts
+    }
+    content = [
+        {
+            "id": "dds_header",
+            "type": "header",
+            "data": {"text": "<span class=\"h4\">Diálogo Diário de Segurança</span>", "col": 12},
+        },
+    ]
+    for label, block_id in (("DDS", "dds_shortcut"), ("DDS Tema", "dds_tema_shortcut")):
+        if shortcut_names.get(label):
+            content.append(
+                {
+                    "id": block_id,
+                    "type": "shortcut",
+                    "data": {"shortcut_name": shortcut_names[label], "col": 4},
+                }
+            )
+    new_content = json.dumps(content, ensure_ascii=False)
+    changed = workspace.content != new_content
+    workspace.content = new_content
     return changed
 
 
