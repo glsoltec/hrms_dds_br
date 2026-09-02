@@ -111,18 +111,12 @@ class DDS(Document):
                 row.designation = designations.get(row.employee) or ""
 
     def _set_project_data(self):
-        project = frappe.db.get_value(
-            "Project", self.project, ["customer", "company"], as_dict=True
-        )
+        project = frappe.db.get_value("Project", self.project, ["customer", "company"], as_dict=True)
         if not project:
             frappe.throw(_("O projeto/obra informado não existe."))
 
-        if project.customer:
-            if self.customer and self.customer != project.customer:
-                frappe.throw(_("O cliente deve ser o mesmo cadastrado no projeto/obra."))
-            self.customer = project.customer
-        elif not self.customer:
-            frappe.throw(_("Informe o cliente, pois o projeto/obra não possui cliente cadastrado."))
+        if not project.customer:
+            frappe.throw(_("O projeto/obra deve possuir um cliente cadastrado."))
 
         if self.company and project.company and self.company != project.company:
             frappe.throw(_("A empresa deve ser a mesma cadastrada no projeto/obra."))
@@ -191,7 +185,6 @@ class DDS(Document):
             "date",
             "time",
             "project",
-            "customer",
             "company",
             "location",
             "responsible",

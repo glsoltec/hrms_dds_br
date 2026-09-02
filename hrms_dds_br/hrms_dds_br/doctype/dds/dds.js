@@ -47,13 +47,11 @@ frappe.ui.form.on("DDS", {
 
 	project(frm) {
 		if (!frm.doc.project) {
-			frm.set_value("customer", "");
 			frm.set_value("company", "");
 			return;
 		}
 
-		frappe.db.get_value("Project", frm.doc.project, ["customer", "company"]).then((result) => {
-			frm.set_value("customer", result.message?.customer || "");
+		frappe.db.get_value("Project", frm.doc.project, "company").then((result) => {
 			frm.set_value("company", result.message?.company || "");
 		});
 	},
@@ -105,7 +103,6 @@ function create_correction(frm) {
 		is_correction: 1,
 		original_dds: frm.doc.name,
 		project: frm.doc.project,
-		customer: frm.doc.customer,
 		company: frm.doc.company,
 		location: frm.doc.location,
 		responsible: frm.doc.responsible,

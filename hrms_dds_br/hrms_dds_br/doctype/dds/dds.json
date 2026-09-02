@@ -10,7 +10,6 @@
     "date",
     "time",
     "project",
-    "customer",
     "company",
     "location",
     "responsible",
@@ -70,13 +69,6 @@
       "options": "Project",
       "reqd": 1,
       "in_list_view": 1
-    },
-    {
-      "fieldname": "customer",
-      "fieldtype": "Link",
-      "label": "Cliente",
-      "options": "Customer",
-      "reqd": 1
     },
     {
       "fieldname": "company",

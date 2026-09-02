@@ -119,7 +119,6 @@ def get_data(filters):
             "date",
             "time",
             "project",
-            "customer",
             "topic",
             "responsible",
             "workflow_state",
@@ -136,6 +135,15 @@ def get_data(filters):
 
     rows = []
     dds_names = [dds.name for dds in dds_list]
+    projects = {dds.project for dds in dds_list if dds.project}
+    customers = {
+        row.name: row.customer
+        for row in frappe.get_all(
+            "Project",
+            filters={"name": ["in", list(projects)]},
+            fields=["name", "customer"],
+        )
+    }
     participants_by_parent = get_participants(dds_names)
     for dds in dds_list:
         participants = participants_by_parent.get(dds.name, [])
@@ -147,7 +155,7 @@ def get_data(filters):
                     "date": dds.date,
                     "time": dds.time,
                     "project": dds.project,
-                    "customer": dds.customer,
+                    "customer": customers.get(dds.project),
                     "topic": dds.topic,
                     "responsible": dds.responsible,
                     "workflow_state": dds.workflow_state,
