@@ -2,6 +2,8 @@
 
 Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil, integrado ao **HRMS** do ERPNext/Frappe.
 
+Versão atual: `1.1.0`.
+
 ### Recursos
 
 - DocType submetível `DDS`, com numeração `DDS-AAAA-00001` e workflow `Rascunho > Realizado/Enviado > Cancelado`.
@@ -13,6 +15,7 @@ Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil, integr
 - Validação no servidor de presença, assinatura dos presentes e confirmação/assinatura do responsável.
 - **Integração HRMS:** botão _Histórico de DDS_ no formulário do `Employee`.
 - **Relatório `Employee DDS History`**: histórico de participação por empregado, com isolamento de acesso por participante/responsável no servidor.
+- Link **Histórico de DDS** adicionado ao workspace HRMS **Shift & Attendance**, onde os colaboradores acessam o ponto.
 - Papéis `Safety Manager` e `Safety Supervisor`.
 - Workspace _Segurança do Trabalho_ e formato de impressão `DDS`.
 
@@ -55,7 +58,7 @@ bench --site seu-site migrate
 bench --site seu-site run-tests --app hrms_dds_br
 ```
 
-Homologue criação, envio, cancelamento, impressão/PDF, controle de acesso da foto, alteração de assinatura, empregado inativo, divergência de empresa, isolamento do relatório (participante, responsável, não participante e gestor) e o botão _Histórico de DDS_ no `Employee`.
+Homologue criação, envio, cancelamento, impressão/PDF, controle de acesso da foto, alteração de assinatura, empregado inativo, divergência de empresa, isolamento do relatório (participante, responsável, não participante e gestor), o botão _Histórico de DDS_ no `Employee` e o link no workspace HRMS _Shift & Attendance_.
 
 ### Retenção e privacidade
 
