@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.12 - 2026-09-02
+
+- Corrigido o tipo dos Number Cards para `Document Type`.
+
 ## 1.4.11 - 2026-09-02
 
 - Adicionado o papel `Responsavel DDS` com permissão de criação no DocType `DDS`.
