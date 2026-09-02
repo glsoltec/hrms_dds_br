@@ -377,7 +377,7 @@ def ensure_dds_charts_and_cards():
             "based_on": "creation",
             "timeseries": 1,
             "time_interval": "Monthly",
-            "timespan": "Last 12 Months",
+            "timespan": "Last Year",
             "type": "Bar",
             "filters_json": "[]",
             "is_public": 1,

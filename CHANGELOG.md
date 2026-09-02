@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.13 - 2026-09-02
+
+- Corrigido o intervalo de tempo do gráfico `DDS por Mês`.
+
 ## 1.4.12 - 2026-09-02
 
 - Corrigido o tipo dos Number Cards para `Document Type`.
