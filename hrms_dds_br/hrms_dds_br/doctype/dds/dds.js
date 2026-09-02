@@ -67,6 +67,7 @@ frappe.ui.form.on("DDS", {
 		const active_employee_filter = () => ({ filters: { status: "Active" } });
 		frm.set_query("responsible", active_employee_filter);
 		frm.set_query("employee", "participants", active_employee_filter);
+		frm.set_query("topic", () => ({ filters: { active: 1 } }));
 	},
 });
 

@@ -19,6 +19,7 @@ class DDS(Document):
         self._validate_submitted_immutability()
         self._validate_correction_fields()
         self._validate_date_range()
+        self._validate_topic()
         self._fill_employee_designations()
         self._record_signature_evidence()
         self._validate_signature_evidence()
@@ -95,6 +96,15 @@ class DDS(Document):
             frappe.throw(_("Informe o DDS original que está sendo corrigido."))
         if self.is_correction and not self.correction_reason:
             frappe.throw(_("Informe o motivo da correção."))
+
+    def _validate_topic(self):
+        if not self.topic:
+            return
+        topic = frappe.db.get_value("DDS Tema", self.topic, "active")
+        if topic is None:
+            frappe.throw(_("O tema selecionado não existe."))
+        if not topic:
+            frappe.throw(_("O tema selecionado está inativo."))
 
     def _fill_employee_designations(self):
         employees = {row.employee for row in self.participants if row.employee}

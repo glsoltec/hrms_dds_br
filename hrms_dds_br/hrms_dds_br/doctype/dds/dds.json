@@ -94,9 +94,9 @@
     },
     {
       "fieldname": "topic",
-      "fieldtype": "Select",
+      "fieldtype": "Link",
       "label": "Tema",
-      "options": "Trabalho em Altura\nEletricidade\nEPI\nFerramentas Manuais\nMáquinas e Equipamentos\nProdutos Químicos\nErgonomia\nOrganização e Limpeza\nTrânsito Interno\nQuase Acidentes\nOutro",
+      "options": "DDS Tema",
       "reqd": 1,
       "in_list_view": 1
     },

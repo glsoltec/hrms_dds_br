@@ -2,7 +2,7 @@
 
 Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil, integrado ao **HRMS** do ERPNext/Frappe.
 
-Versão atual: `1.3.9`.
+Versão atual: `1.4.0`.
 
 ### Recursos
 
@@ -15,6 +15,7 @@ Versão atual: `1.3.9`.
 - Validação no servidor de presença, assinatura dos presentes e confirmação/assinatura do responsável.
 - **Integração HRMS:** botão _Histórico de DDS_ no formulário do `Employee`.
 - **Relatório `Employee DDS History`**: histórico de participação por empregado, com isolamento de acesso por participante/responsável no servidor.
+- **Cadastro dinâmico `DDS Tema`**: temas ativos podem ser criados, desativados e ordenados sem deploy.
 - Link **Histórico de DDS** exibido também na tela de autoatendimento HRMS `/hrms/home`, junto aos atalhos rápidos.
 - **Painel `DDS Dashboard`**: indicadores, gráfico mensal e alerta de projetos sem DDS recente.
 - **Configuração via `site_config.json`**: chaves `dds_retroactive_days`, `dds_future_days` e `dds_no_dds_alert_days` (padrões 1, 0 e 3).

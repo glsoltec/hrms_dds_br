@@ -7,6 +7,19 @@ WORKFLOW_STATES = {
     "Cancelado": "Danger",
 }
 WORKFLOW_ACTIONS = ("Enviar", "Cancelar")
+DEFAULT_DDS_TOPICS = (
+    "Trabalho em Altura",
+    "Eletricidade",
+    "EPI",
+    "Ferramentas Manuais",
+    "Máquinas e Equipamentos",
+    "Produtos Químicos",
+    "Ergonomia",
+    "Organização e Limpeza",
+    "Trânsito Interno",
+    "Quase Acidentes",
+    "Outro",
+)
 
 
 def ensure_workflow_masters():
@@ -44,6 +57,25 @@ def sync_employee_dds_report_roles():
             changed = True
     if changed:
         report.save(ignore_permissions=True)
+
+
+def ensure_default_topics():
+    for sort_order, topic in enumerate(DEFAULT_DDS_TOPICS, start=1):
+        if not frappe.db.exists("DDS Tema", topic):
+            frappe.get_doc(
+                {
+                    "doctype": "DDS Tema",
+                    "tema": topic,
+                    "active": 1,
+                    "sort_order": sort_order,
+                }
+            ).insert(ignore_permissions=True)
+
+
+def after_migrate():
+    sync_employee_dds_report_roles()
+    frappe.cache.delete_value("doctype_modules")
+    ensure_default_topics()
 
 
 def inject_hrms_home_asset(response=None, request=None):

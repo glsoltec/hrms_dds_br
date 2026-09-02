@@ -9,7 +9,8 @@ required_apps = ["erpnext", "hrms"]
 
 before_install = "hrms_dds_br.setup.ensure_workflow_masters"
 before_migrate = "hrms_dds_br.setup.ensure_workflow_masters"
-after_migrate = "hrms_dds_br.setup.sync_employee_dds_report_roles"
+after_install = "hrms_dds_br.setup.ensure_default_topics"
+after_migrate = "hrms_dds_br.setup.after_migrate"
 after_request = ["hrms_dds_br.setup.inject_hrms_home_asset"]
 
 add_to_apps_screen = [

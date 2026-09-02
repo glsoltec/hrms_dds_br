@@ -25,21 +25,8 @@ frappe.query_reports["Employee DDS History"] = {
 		{
 			fieldname: "topic",
 			label: __("Tema"),
-			fieldtype: "Select",
-			options: [
-				"",
-				"Trabalho em Altura",
-				"Eletricidade",
-				"EPI",
-				"Ferramentas Manuais",
-				"Máquinas e Equipamentos",
-				"Produtos Químicos",
-				"Ergonomia",
-				"Organização e Limpeza",
-				"Trânsito Interno",
-				"Quase Acidentes",
-				"Outro",
-			].join("\n"),
+			fieldtype: "Link",
+			options: "DDS Tema",
 		},
 		{
 			fieldname: "workflow_state",
