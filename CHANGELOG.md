@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.20 - 2026-09-02
+
+- Corrigida a validação dos metadados da assinatura do responsável no envio (primeiro registro).
+
 ## 1.4.19 - 2026-09-02
 
 - Corrigida a permissão de criação para papéis privilegiados (o hook `has_permission` retornava `None`, que era tratado como bloqueio).

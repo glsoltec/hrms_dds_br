@@ -257,8 +257,16 @@ class DDS(Document):
             "responsible_signature_collected_at",
             "responsible_signature_hash",
         )
-        if self.responsible_signature == previous.responsible_signature and any(
-            getattr(self, field) != getattr(previous, field) for field in responsible_fields
+        previous_had_metadata = any(
+            getattr(previous, field) for field in responsible_fields
+        )
+        if (
+            self.responsible_signature == previous.responsible_signature
+            and previous_had_metadata
+            and any(
+                getattr(self, field) != getattr(previous, field)
+                for field in responsible_fields
+            )
         ):
             frappe.throw(_("Os metadados da assinatura do responsável não podem ser alterados."))
 
