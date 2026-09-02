@@ -39,7 +39,7 @@ def dds_has_permission(doc, user=None, permission_type=None):
     if roles & PRIVILEGED_ROLES:
         return None
 
-    if permission_type not in (None, "read", "print"):
+    if permission_type not in (None, "read", "print", "report"):
         return False
 
     employees = set(
