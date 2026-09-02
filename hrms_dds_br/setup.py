@@ -30,6 +30,22 @@ def ensure_workflow_masters():
             ).insert(ignore_permissions=True)
 
 
+def sync_employee_dds_report_roles():
+    report = frappe.db.exists("Report", "Employee DDS History")
+    if not report:
+        return
+
+    report = frappe.get_doc("Report", "Employee DDS History")
+    roles = {row.role for row in report.roles}
+    changed = False
+    for role in ("Employee", "Employee Self Service"):
+        if role not in roles:
+            report.append("roles", {"role": role})
+            changed = True
+    if changed:
+        report.save(ignore_permissions=True)
+
+
 def inject_hrms_home_asset(response=None, request=None):
     if not response or not request or not (
         request.path == "/hrms" or request.path.startswith("/hrms/")
