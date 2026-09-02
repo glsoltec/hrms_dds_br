@@ -15,7 +15,6 @@ Versão atual: `1.2.0`.
 - Validação no servidor de presença, assinatura dos presentes e confirmação/assinatura do responsável.
 - **Integração HRMS:** botão _Histórico de DDS_ no formulário do `Employee`.
 - **Relatório `Employee DDS History`**: histórico de participação por empregado, com isolamento de acesso por participante/responsável no servidor.
-- Link **Histórico de DDS** adicionado ao workspace HRMS **Shift & Attendance**, onde os colaboradores acessam o ponto.
 - Link **Histórico de DDS** exibido também na tela de autoatendimento HRMS `/hrms/home`, junto aos atalhos rápidos.
 - Papéis `Safety Manager` e `Safety Supervisor`.
 - Workspace _Segurança do Trabalho_ e formato de impressão `DDS`.
@@ -59,7 +58,7 @@ bench --site seu-site migrate
 bench --site seu-site run-tests --app hrms_dds_br
 ```
 
-Homologue criação, envio, cancelamento, impressão/PDF, controle de acesso da foto, alteração de assinatura, empregado inativo, divergência de empresa, isolamento do relatório (participante, responsável, não participante e gestor), o botão _Histórico de DDS_ no `Employee` e o link no workspace HRMS _Shift & Attendance_.
+Homologue criação, envio, cancelamento, impressão/PDF, controle de acesso da foto, alteração de assinatura, empregado inativo, divergência de empresa, isolamento do relatório (participante, responsável, não participante e gestor), o botão _Histórico de DDS_ no `Employee` e o link na tela HRMS `/hrms/home`.
 
 ### Retenção e privacidade
 

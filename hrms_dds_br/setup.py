@@ -30,35 +30,6 @@ def ensure_workflow_masters():
             ).insert(ignore_permissions=True)
 
 
-def sync_hrms_attendance_workspace():
-    workspace_name = "Shift & Attendance"
-    report_name = "Employee DDS History"
-    workspace = frappe.db.exists("Workspace", workspace_name)
-    if not workspace:
-        return
-
-    workspace = frappe.get_doc("Workspace", workspace_name)
-    if any(
-        link.link_to == report_name and link.link_type == "Report"
-        for link in workspace.links
-    ):
-        return
-
-    workspace.append(
-        "links",
-        {
-            "label": "Histórico de DDS",
-            "link_to": report_name,
-            "link_type": "Report",
-            "is_query_report": 1,
-            "type": "Link",
-            "hidden": 0,
-            "onboard": 0,
-        },
-    )
-    workspace.save(ignore_permissions=True)
-
-
 def inject_hrms_home_asset(response=None, request=None):
     if not response or not request or not (
         request.path == "/hrms" or request.path.startswith("/hrms/")
