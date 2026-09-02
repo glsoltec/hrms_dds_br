@@ -113,7 +113,7 @@ def get_data(filters):
 
     dds_list = frappe.get_all(
         "DDS",
-        filters={"docstatus": ["<", 2], **get_report_filters(filters)},
+        filters=get_report_filters(filters),
         fields=[
             "name",
             "date",
