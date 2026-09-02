@@ -39,8 +39,14 @@ def dds_has_permission(doc, user=None, permission_type=None):
     if roles & PRIVILEGED_ROLES:
         return None
 
+    if "Responsavel DDS" in roles and permission_type == "create":
+        return True
+
     if permission_type not in (None, "read", "print", "report"):
         return False
+
+    if not doc:
+        return True
 
     employees = set(
         frappe.get_all(

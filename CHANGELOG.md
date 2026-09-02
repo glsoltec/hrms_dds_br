@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.11 - 2026-09-02
+
+- Adicionado o papel `Responsavel DDS` com permissão de criação no DocType `DDS`.
+- Adicionados gráficos (Total DDS, DDS Enviados, DDS Cancelados e DDS por Mês) ao workspace `Segurança do Trabalho`.
+- Ajustado `DDS Tema` para que apenas administradores criem temas; colaboradores têm leitura.
+
 ## 1.4.10 - 2026-09-02
 
 - Corrigido o atalho `DDS` em branco no workspace `Segurança do Trabalho`.

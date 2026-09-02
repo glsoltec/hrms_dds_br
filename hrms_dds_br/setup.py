@@ -74,10 +74,23 @@ def ensure_default_topics():
             ).insert(ignore_permissions=True)
 
 
+def ensure_dds_roles():
+    if not frappe.db.exists("Role", "Responsavel DDS"):
+        frappe.get_doc(
+            {
+                "doctype": "Role",
+                "name": "Responsavel DDS",
+                "desk_access": 1,
+                "is_custom": 1,
+            }
+        ).insert(ignore_permissions=True)
+
+
 def after_migrate():
     sync_employee_dds_report_roles()
     frappe.cache.delete_value("doctype_modules")
     ensure_default_topics()
+    ensure_dds_roles()
     sync_dds_workspace_links()
     sync_sst_workspace_and_sidebar()
 
@@ -116,6 +129,7 @@ def sync_dds_workspace_links():
     ]
 
     changed = content_changed or len(workspace.links) != len(existing_links)
+    changed = _ensure_workspace_roles(workspace, ["Responsavel DDS"]) or changed
     for index, (link_type, link_to, label, is_query_report, group) in enumerate(links):
         link = next(
             (
@@ -296,7 +310,112 @@ def _rebuild_sst_content(workspace):
     return changed
 
 
+def _ensure_dashboard_chart(name, doc):
+    if not frappe.db.exists("Dashboard Chart", name):
+        frappe.get_doc(doc).insert(ignore_permissions=True)
+
+
+def _ensure_number_card(name, doc):
+    if not frappe.db.exists("Number Card", name):
+        frappe.get_doc(doc).insert(ignore_permissions=True)
+
+
+def ensure_dds_charts_and_cards():
+    _ensure_number_card(
+        "Total DDS",
+        {
+            "doctype": "Number Card",
+            "name": "Total DDS",
+            "label": "Total DDS",
+            "type": "Document",
+            "document_type": "DDS",
+            "function": "Count",
+            "filters_json": "[]",
+            "stats_time_interval": "Daily",
+            "is_public": 1,
+            "module": "HRMS DDS BR",
+        },
+    )
+    _ensure_number_card(
+        "DDS Enviados",
+        {
+            "doctype": "Number Card",
+            "name": "DDS Enviados",
+            "label": "DDS Enviados",
+            "type": "Document",
+            "document_type": "DDS",
+            "function": "Count",
+            "filters_json": '[["workflow_state","=","Realizado/Enviado"]]',
+            "stats_time_interval": "Daily",
+            "is_public": 1,
+            "module": "HRMS DDS BR",
+        },
+    )
+    _ensure_number_card(
+        "DDS Cancelados",
+        {
+            "doctype": "Number Card",
+            "name": "DDS Cancelados",
+            "label": "DDS Cancelados",
+            "type": "Document",
+            "document_type": "DDS",
+            "function": "Count",
+            "filters_json": '[["workflow_state","=","Cancelado"]]',
+            "stats_time_interval": "Daily",
+            "is_public": 1,
+            "module": "HRMS DDS BR",
+        },
+    )
+    _ensure_dashboard_chart(
+        "DDS por Mês",
+        {
+            "doctype": "Dashboard Chart",
+            "name": "DDS por Mês",
+            "chart_name": "DDS por Mês",
+            "chart_type": "Count",
+            "document_type": "DDS",
+            "based_on": "creation",
+            "timeseries": 1,
+            "time_interval": "Monthly",
+            "timespan": "Last 12 Months",
+            "type": "Bar",
+            "filters_json": "[]",
+            "is_public": 1,
+            "module": "HRMS DDS BR",
+        },
+    )
+
+
+def _ensure_workspace_charts_and_cards(workspace):
+    chart_names = {item.chart_name for item in workspace.charts}
+    card_names = {item.number_card_name for item in workspace.number_cards}
+    changed = False
+    for name in ("DDS por Mês",):
+        if name not in chart_names:
+            workspace.append("charts", {"chart_name": name})
+            changed = True
+    for name in ("Total DDS", "DDS Enviados", "DDS Cancelados"):
+        if name not in card_names:
+            workspace.append(
+                "number_cards",
+                {"number_card_name": name, "label": name},
+            )
+            changed = True
+    return changed
+
+
+def _ensure_workspace_roles(workspace, roles):
+    existing = {item.role for item in workspace.roles}
+    changed = False
+    for role in roles:
+        if role not in existing:
+            workspace.append("roles", {"role": role})
+            changed = True
+    return changed
+
+
 def sync_sst_workspace_and_sidebar():
+    ensure_dds_charts_and_cards()
     workspace = frappe.db.exists("Workspace", "Seguranca do Trabalho")
     if workspace:
         workspace = frappe.get_doc("Workspace", "Seguranca do Trabalho")
@@ -309,9 +428,19 @@ def sync_sst_workspace_and_sidebar():
         content_changed = _rebuild_sst_content(workspace)
         shortcuts_changed = _ensure_workspace_shortcuts(workspace)
         links_changed = _ensure_workspace_links(workspace, links)
+        charts_changed = _ensure_workspace_charts_and_cards(workspace)
+        roles_changed = _ensure_workspace_roles(
+            workspace, ["Responsavel DDS"]
+        )
         if shortcuts_changed or links_changed:
             content_changed = _rebuild_sst_content(workspace)
-        if content_changed or shortcuts_changed or links_changed:
+        if (
+            content_changed
+            or shortcuts_changed
+            or links_changed
+            or charts_changed
+            or roles_changed
+        ):
             workspace.save(ignore_permissions=True)
 
     sidebar = frappe.db.exists("Workspace Sidebar", "Segurança do Trabalho")
