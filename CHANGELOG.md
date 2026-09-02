@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.8 - 2026-09-02
+
+- Corrigida a serialização do conteúdo do workspace durante a sincronização dos links.
+
 ## 1.4.7 - 2026-09-02
 
 - Tratada a normalização de conteúdo inválido do workspace antes da sincronização dos links.
