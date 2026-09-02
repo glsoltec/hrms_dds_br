@@ -107,24 +107,8 @@ def get_data(filters):
 
     rows = []
     for dds in dds_list:
-        participants = frappe.get_all(
-            "DDS Participante",
-            filters={"parent": dds.name, "parenttype": "DDS"},
-            fields=["employee", "present", "signature"],
-            order_by="idx asc",
-        )
-
-        if employee:
-            matches = [p for p in participants if p.employee == employee]
-            if dds.responsible == employee and not matches:
-                matches = [
-                    {"employee": dds.responsible, "present": 0, "signature": None}
-                ]
-        elif privileged:
-            matches = participants
-        else:
-            matches = [p for p in participants if p.employee in own_employees]
-
+        participants = get_participants(dds.name)
+        matches = select_matches(dds, participants, employee, privileged, own_employees)
         for p in matches:
             rows.append(
                 {
@@ -138,11 +122,48 @@ def get_data(filters):
                     "workflow_state": dds.workflow_state,
                     "employee": p["employee"],
                     "present": _("Sim") if p.get("present") else _("Não"),
-                    "signed": _("Sim") if p.get("signature") else _("Não"),
+                    "signed": _("Sim") if p.get("signed") else _("Não"),
                 }
             )
 
     return rows
+
+
+def get_participants(parent):
+    participante = frappe.qb.DocType("DDS Participante")
+    return (
+        frappe.qb.from_(participante)
+        .select(
+            participante.employee,
+            participante.present,
+            participante.signature.isnotnull().as_("signed"),
+        )
+        .where(
+            (participante.parent == parent)
+            & (participante.parenttype == "DDS")
+        )
+        .orderby(participante.idx)
+        .run(as_dict=True)
+    )
+
+
+def select_matches(dds, participants, employee, privileged, own_employees):
+    if employee:
+        matches = [p for p in participants if p["employee"] == employee]
+        if dds.responsible == employee and not matches:
+            matches = [{"employee": dds.responsible, "present": 0, "signed": 0}]
+        return matches
+
+    if privileged:
+        return participants
+
+    own = own_employees or set()
+    matches = [p for p in participants if p["employee"] in own]
+    if dds.responsible in own and not any(
+        p["employee"] == dds.responsible for p in matches
+    ):
+        matches.append({"employee": dds.responsible, "present": 0, "signed": 0})
+    return matches
 
 
 def is_privileged():

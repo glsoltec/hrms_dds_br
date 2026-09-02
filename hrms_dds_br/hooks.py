@@ -38,12 +38,26 @@ user_data_fields = [
     {
         "doctype": "DDS",
         "filter_by": "responsible",
-        "redact_fields": ["observations"],
+        "redact_fields": [
+            "observations",
+            "responsible_signature",
+            "responsible_signature_hash",
+            "responsible_signature_collected_by",
+            "responsible_signature_collected_at",
+            "photo",
+        ],
         "partial": 1,
     },
     {
         "doctype": "DDS Participante",
         "filter_by": "employee",
+        "redact_fields": [
+            "signature",
+            "signature_hash",
+            "signature_collected_by",
+            "signature_collected_at",
+            "observation",
+        ],
         "partial": 1,
     },
 ]

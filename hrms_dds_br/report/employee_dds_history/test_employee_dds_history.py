@@ -3,6 +3,7 @@ from frappe.tests.utils import FrappeTestCase
 
 from hrms_dds_br.report.employee_dds_history.employee_dds_history import (
     get_columns,
+    select_matches,
     validate_filters,
 )
 
@@ -36,3 +37,22 @@ class TestEmployeeDDSHistory(FrappeTestCase):
         finally:
             frappe.get_roles = original_get_roles
             frappe.get_all = original_get_all
+
+    def test_select_matches_includes_responsible_for_self_service(self):
+        dds = {"name": "DDS-1", "responsible": "EMP-RESP"}
+        participants = [{"employee": "EMP-PART", "present": 1, "signed": 1}]
+        matches = select_matches(dds, participants, None, False, {"EMP-RESP", "EMP-PART"})
+        employees = {m["employee"] for m in matches}
+        self.assertIn("EMP-RESP", employees)
+        self.assertIn("EMP-PART", employees)
+
+    def test_select_matches_excludes_non_own_participants(self):
+        dds = {"name": "DDS-1", "responsible": "EMP-RESP"}
+        participants = [
+            {"employee": "EMP-PART", "present": 1, "signed": 1},
+            {"employee": "EMP-OUTRO", "present": 1, "signed": 1},
+        ]
+        matches = select_matches(dds, participants, None, False, {"EMP-RESP", "EMP-PART"})
+        employees = {m["employee"] for m in matches}
+        self.assertIn("EMP-PART", employees)
+        self.assertNotIn("EMP-OUTRO", employees)
