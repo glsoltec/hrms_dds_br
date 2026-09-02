@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.23 - 2026-09-02
+
+- Adicionada notificação aos participantes no envio do DDS.
+- System Manager/Administrador podem cancelar o DDS sem informar motivo.
+- Demais responsáveis cancelam informando motivo via caixa de texto.
+
 ## 1.4.22 - 2026-09-02
 
 - Removida a obrigatoriedade de assinatura dos participantes no envio. A assinatura do responsável continua obrigatória.

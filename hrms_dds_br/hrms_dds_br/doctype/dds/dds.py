@@ -32,11 +32,61 @@ class DDS(Document):
         self._validate_completion()
 
     def before_cancel(self):
-        if not self.cancellation_reason or not self.cancellation_reason.strip():
+        roles = set(frappe.get_roles(frappe.session.user))
+        can_cancel_without_reason = (
+            frappe.session.user == "Administrator" or "System Manager" in roles
+        )
+        if not can_cancel_without_reason and (
+            not self.cancellation_reason or not self.cancellation_reason.strip()
+        ):
             frappe.throw(_("Informe o motivo do cancelamento antes de cancelar o DDS."))
-        self.cancellation_reason = self.cancellation_reason.strip()
+        if self.cancellation_reason:
+            self.cancellation_reason = self.cancellation_reason.strip()
         self.cancelled_by = frappe.session.user
         self.cancelled_at = now_datetime()
+
+    def on_submit(self):
+        self._notify_participants()
+
+    def _notify_participants(self):
+        employees = {
+            row.employee: row
+            for row in self.participants
+        }
+        users = {
+            name: user_id
+            for name, user_id in frappe.get_all(
+                "Employee",
+                filters={"name": ["in", list(employees)]},
+                fields=["name", "user_id"],
+                as_list=True,
+            )
+        }
+        for employee, user_id in users.items():
+            if not user_id:
+                continue
+            try:
+                frappe.get_doc(
+                    {
+                        "doctype": "Notification Log",
+                        "subject": _("DDS {0} enviado - confirme sua presença").format(
+                            self.name
+                        ),
+                        "email_content": _(
+                            "O Diálogo Diário de Segurança {0} foi enviado. Acesse para "
+                            "confirmar sua presença."
+                        ).format(self.name),
+                        "for_user": user_id,
+                        "type": "Alert",
+                        "document_type": "DDS",
+                        "document_name": self.name,
+                    }
+                ).insert(ignore_permissions=True)
+            except Exception:
+                frappe.log_error(
+                    _("Falha ao notificar participante de DDS {0}").format(self.name),
+                    "hrms_dds_br.notify",
+                )
 
     def on_trash(self):
         if self.docstatus != 0:
@@ -300,7 +350,11 @@ class DDS(Document):
 @frappe.whitelist()
 def cancel_dds(doc, cancellation_reason):
     reason = (cancellation_reason or "").strip()
-    if not reason:
+    roles = set(frappe.get_roles())
+    can_without_reason = (
+        frappe.session.user == "Administrator" or "System Manager" in roles
+    )
+    if not can_without_reason and not reason:
         frappe.throw(_("Informe o motivo do cancelamento."))
 
     doc = frappe.get_doc(frappe.parse_json(doc))
