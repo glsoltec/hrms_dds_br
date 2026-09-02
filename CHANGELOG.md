@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.22 - 2026-09-02
+
+- Removida a obrigatoriedade de assinatura dos participantes no envio. A assinatura do responsável continua obrigatória.
+
 ## 1.4.21 - 2026-09-02
 
 - Corrigido o erro de metadados da assinatura no envio: quando a assinatura não muda, os metadados são mantidos do banco (ignora reenvio do formulário).

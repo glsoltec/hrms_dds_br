@@ -296,12 +296,6 @@ class DDS(Document):
         if not self.participants:
             frappe.throw(_("Inclua ao menos um participante."))
 
-        for row in self.participants:
-            if row.present and not row.signature:
-                frappe.throw(
-                    _("A assinatura do participante {0} é obrigatória.").format(row.employee)
-                )
-
 
 @frappe.whitelist()
 def cancel_dds(doc, cancellation_reason):
