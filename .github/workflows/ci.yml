@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: ["version-16", "main", "develop"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate package metadata
+        run: |
+          python - <<'PY'
+          import tomllib
+          with open("pyproject.toml", "rb") as file:
+              project = tomllib.load(file)["project"]
+          assert project["dynamic"] == ["version"]
+          assert project["license"]["file"] == "license.txt"
+          assert project["requires-python"] == ">=3.10,<3.15"
+          print("metadata ok")
+          PY
+      - name: Compile Python
+        run: python -m compileall -q hrms_dds_br
+      - name: Validate JSON
+        run: |
+          python - <<'PY'
+          import glob
+          import json
+          for path in glob.glob("**/*.json", recursive=True):
+              with open(path, encoding="utf-8") as file:
+                  json.load(file)
+          print("json ok")
+          PY
+      - name: Check whitespace
+        run: git diff --check

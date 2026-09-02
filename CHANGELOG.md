@@ -1,0 +1,43 @@
+# Changelog
+
+## 1.4.2 - 2026-09-02
+
+- Preparados metadados e documentação para publicação no Frappe Marketplace.
+- Adicionado CI para validar metadados, Python, JSON e whitespace.
+- Restringida a injeção do asset da página HRMS às rotas `/hrms` e `/hrms/home`.
+
+## 1.4.1 - 2026-09-02
+
+- Corrigido o acesso ao relatório `Employee DDS History` para `Employee Self Service`.
+- Mantido o isolamento server-side por participante e responsável.
+
+## 1.4.0 - 2026-09-02
+
+- Criado o cadastro dinâmico `DDS Tema`.
+- Convertido o campo `Tema` do DDS para um link com filtro de temas ativos.
+- Adicionada carga inicial dos temas de SST.
+
+## 1.3.8 - 2026-09-02
+
+- Removido o campo duplicado `Cliente` do DDS.
+- Cliente e empresa passam a ser derivados do `Project`.
+
+## 1.3.7 - 2026-09-02
+
+- Seção de correção exibida somente quando habilitada.
+- Seção de cancelamento exibida somente no estado `Cancelado`.
+
+## 1.3.0 - 2026-09-02
+
+- Adicionadas regras de imutabilidade após envio.
+- Criado o painel `DDS Dashboard` com indicadores e alerta de recência por projeto.
+- Reduzida a exposição de metadados técnicos de assinatura no PDF operacional.
+
+## 1.2.0 - 2026-09-02
+
+- Adicionado o link de histórico de DDS à tela de autoatendimento `/hrms/home`.
+- Integração com o formulário `Employee`.
+
+## 1.0.0 - 2026-09-02
+
+- Primeira versão funcional do app HRMS DDS BR.

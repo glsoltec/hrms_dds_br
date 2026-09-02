@@ -79,9 +79,7 @@ def after_migrate():
 
 
 def inject_hrms_home_asset(response=None, request=None):
-    if not response or not request or not (
-        request.path == "/hrms" or request.path.startswith("/hrms/")
-    ):
+    if not response or not request or request.path not in ("/hrms", "/hrms/", "/hrms/home"):
         return
 
     content_type = response.headers.get("Content-Type", "")

@@ -1,15 +1,19 @@
 [project]
 name = "hrms_dds_br"
 authors = [
-    { name = "GL SOLTEC", email = "dev@glsoltce.com.br"}
+    { name = "GL SOLTEC", email = "dev@glsoltec.com.br"}
 ]
 description = "Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil"
-requires-python = ">=3.14"
+requires-python = ">=3.10,<3.15"
 readme = "README.md"
+license = { file = "license.txt" }
 dynamic = ["version"]
-dependencies = [
-    # "frappe~=16.0.0" # Installed and managed by bench.
-]
+dependencies = []
+
+[project.urls]
+Homepage = "https://glsoltec.com.br"
+Repository = "https://github.com/glsoltec/hrms_dds_br"
+Issues = "https://github.com/glsoltec/hrms_dds_br/issues"
 
 [build-system]
 requires = ["flit_core >=3.4,<4"]
