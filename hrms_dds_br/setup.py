@@ -92,72 +92,7 @@ def after_migrate():
     ensure_default_topics()
     ensure_dds_roles()
     ensure_dds_charts_and_cards()
-    sync_dds_workspace_links()
     sync_sst_workspace_and_sidebar()
-
-
-def sync_dds_workspace_links():
-    workspace_name = "DDS"
-    workspace = frappe.db.exists("Workspace", workspace_name)
-    if not workspace:
-        return
-
-    workspace = frappe.get_doc("Workspace", workspace_name)
-    shortcuts_changed = _ensure_workspace_shortcuts(workspace)
-    charts_changed = _ensure_workspace_charts_and_cards(workspace)
-    content_changed = _rebuild_dds_content(workspace)
-    valid_targets = {"DDS", "DDS Tema", "Employee DDS History", "DDS Dashboard"}
-    existing_links = list(workspace.links)
-    workspace.links = [
-        link
-        for link in workspace.links
-        if link.link_to in valid_targets
-    ]
-    links = [
-        ("DocType", "DDS", "Registros de DDS", 0, "Cadastros"),
-        ("DocType", "DDS Tema", "Temas de DDS", 0, "Cadastros"),
-        ("Report", "Employee DDS History", "Histórico de DDS do Empregado", 1, "Relatórios"),
-        ("Report", "DDS Dashboard", "Painel de DDS", 1, "Relatórios"),
-    ]
-
-    changed = (
-        content_changed
-        or shortcuts_changed
-        or charts_changed
-        or len(workspace.links) != len(existing_links)
-    )
-    changed = _ensure_workspace_roles(workspace, ["Responsavel DDS"]) or changed
-    for index, (link_type, link_to, label, is_query_report, group) in enumerate(links):
-        link = next(
-            (
-                item
-                for item in workspace.links
-                if item.link_type == link_type and item.link_to == link_to
-            ),
-            None,
-        )
-        if link is None:
-            link = workspace.append("links", {})
-            changed = True
-        values = {
-            "link_type": link_type,
-            "link_to": link_to,
-            "label": label,
-            "is_query_report": is_query_report,
-            "group": group,
-            "hidden": 0,
-            "onboard": 0,
-        }
-        for field, value in values.items():
-            if getattr(link, field, None) != value:
-                setattr(link, field, value)
-                changed = True
-        if link.idx != index + 1:
-            link.idx = index + 1
-            changed = True
-
-    if changed:
-        workspace.save(ignore_permissions=True)
 
 
 def _normalize_workspace_content(workspace):
@@ -267,34 +202,6 @@ def _ensure_workspace_shortcuts(workspace):
         if getattr(shortcut, "doc_view", None) != "List":
             shortcut.doc_view = "List"
             changed = True
-    return changed
-
-
-def _rebuild_dds_content(workspace):
-    shortcut_names = {
-        shortcut.label: shortcut.name
-        for shortcut in workspace.shortcuts
-    }
-    content = [
-        {
-            "id": "dds_header",
-            "type": "header",
-            "data": {"text": "<span class=\"h4\">Diálogo Diário de Segurança</span>", "col": 12},
-        },
-    ]
-    for label, block_id in (("DDS", "dds_shortcut"), ("DDS Tema", "dds_tema_shortcut")):
-        if shortcut_names.get(label):
-            content.append(
-                {
-                    "id": block_id,
-                    "type": "shortcut",
-                    "data": {"shortcut_name": shortcut_names[label], "col": 4},
-                }
-            )
-    content.extend(_dashboard_blocks())
-    new_content = json.dumps(content, ensure_ascii=False)
-    changed = workspace.content != new_content
-    workspace.content = new_content
     return changed
 
 

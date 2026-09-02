@@ -18,7 +18,7 @@ add_to_apps_screen = [
         "name": "hrms_dds_br",
         "logo": "/assets/hrms_dds_br/images/hrms-dds-br.svg",
         "title": "HRMS DDS BR",
-        "route": "/desk/dds",
+        "route": "/desk/seguranca-do-trabalho",
     }
 ]
 
@@ -35,9 +35,6 @@ has_permission = {
 doctype_js = {
     "Employee": "public/js/employee.js",
 }
-
-# Redireciona /desk/dds para a lista do DocType DDS.
-app_include_js = ["/assets/hrms_dds_br/js/dds_redirect.js"]
 
 # Protecao de dados (LGPD): permite exportar/eliminar registros do titular.
 user_data_fields = [

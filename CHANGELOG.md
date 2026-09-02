@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.18 - 2026-09-02
+
+- Removido o workspace `DDS`. O acesso ao DocType `DDS` é feito pela lista `/app/dds`.
+- Rota do app screen atualizada para `Segurança do Trabalho`.
+
 ## 1.4.17 - 2026-09-02
 
 - Corrigida a renderização dos gráficos/cards no workspace (blocos no content).
