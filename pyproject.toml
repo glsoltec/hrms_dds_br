@@ -3,7 +3,7 @@ name = "hrms_dds_br"
 authors = [
     { name = "GL SOLTEC", email = "dev@glsoltec.com.br"}
 ]
-description = "Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil"
+description = "Diálogo Diário de Segurança para obras e projetos, integrado ao HRMS"
 requires-python = ">=3.10,<3.15"
 readme = "README.md"
 license = { file = "license.txt" }

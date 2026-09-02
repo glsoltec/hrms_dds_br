@@ -1,7 +1,7 @@
 app_name = "hrms_dds_br"
-app_title = "HRMS DDS BR"
+app_title = "Diálogo Diário de Segurança"
 app_publisher = "GL SOLTEC"
-app_description = "Registros de Saude e Seguranca do Trabalho (DDS) integrados ao HRMS - Brasil"
+app_description = "Registros de Saúde e Segurança do Trabalho (DDS) integrados ao HRMS - Brasil"
 app_email = "dev@glsoltec.com.br"
 app_license = "mit"
 
@@ -17,7 +17,7 @@ add_to_apps_screen = [
     {
         "name": "hrms_dds_br",
         "logo": "/assets/hrms_dds_br/images/hrms-dds-br.svg",
-        "title": "HRMS DDS BR",
+        "title": "Diálogo Diário de Segurança",
         "route": "/desk/seguranca-do-trabalho",
     }
 ]

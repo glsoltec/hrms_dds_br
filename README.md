@@ -1,12 +1,12 @@
-# HRMS DDS BR
+# Diálogo Diário de Segurança
 
 Aplicativo Frappe/ERPNext para registro, assinatura e acompanhamento de Diálogos Diários de Segurança (DDS), integrado ao HRMS.
 
 ## Visão geral
 
-O HRMS DDS BR registra a realização do DDS, os riscos abordados, as medidas preventivas, os participantes, a presença e as assinaturas coletadas. A solução foi desenhada para uso em obras, projetos e operações com empregados cadastrados no HRMS.
+O aplicativo Diálogo Diário de Segurança registra a realização do DDS, os riscos abordados, as medidas preventivas, os participantes, a presença e as assinaturas coletadas. A solução foi desenhada para uso em obras, projetos e operações com empregados cadastrados no HRMS.
 
-Versão atual: `1.4.24`.
+Versão atual: `1.4.25`.
 
 ## Compatibilidade
 
@@ -17,7 +17,7 @@ Versão atual: `1.4.24`.
 | HRMS             | `>=16.0.0,<17.0.0` |
 | Python           | `>=3.10,<3.15`     |
 
-O app requer ERPNext e HRMS instalados no site antes da instalação do HRMS DDS BR.
+O app requer ERPNext e HRMS instalados no site antes da instalação do Diálogo Diário de Segurança.
 
 ## Recursos
 

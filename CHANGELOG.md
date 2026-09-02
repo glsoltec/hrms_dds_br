@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.25 - 2026-09-02
+
+- Alterado o nome comercial exibido para `Diálogo Diário de Segurança`.
+- Mantido o identificador técnico `hrms_dds_br` para preservar compatibilidade.
+
 ## 1.4.24 - 2026-09-02
 
 - System Manager e Administrator podem excluir DDS (inclusive enviado/cancelado) sem informar motivo.
