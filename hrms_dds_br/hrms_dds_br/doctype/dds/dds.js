@@ -19,6 +19,13 @@ frappe.ui.form.on("DDS", {
 		frm.refresh_field("correction_reason");
 	},
 
+	workflow_state(frm) {
+		frm.refresh_field("cancellation_section");
+		frm.refresh_field("cancellation_reason");
+		frm.refresh_field("cancelled_by");
+		frm.refresh_field("cancelled_at");
+	},
+
 	refresh(frm) {
 		if (frm.is_new()) {
 			return;

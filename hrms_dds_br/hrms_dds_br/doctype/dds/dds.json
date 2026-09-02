@@ -28,8 +28,8 @@
     "responsible_signature_collected_at",
     "responsible_signature_hash",
     "photo",
-    "correction_section",
     "is_correction",
+    "correction_section",
     "original_dds",
     "correction_reason",
     "cancellation_section",
@@ -211,12 +211,14 @@
     {
       "fieldname": "cancellation_section",
       "fieldtype": "Section Break",
-      "label": "Cancelamento"
+      "label": "Cancelamento",
+      "depends_on": "eval:doc.workflow_state == 'Cancelado'"
     },
     {
       "fieldname": "cancellation_reason",
       "fieldtype": "Small Text",
-      "label": "Motivo do cancelamento"
+      "label": "Motivo do cancelamento",
+      "depends_on": "eval:doc.workflow_state == 'Cancelado'"
     },
     {
       "fieldname": "cancelled_by",
@@ -224,14 +226,16 @@
       "label": "Cancelado por",
       "options": "User",
       "read_only": 1,
-      "no_copy": 1
+      "no_copy": 1,
+      "depends_on": "eval:doc.workflow_state == 'Cancelado'"
     },
     {
       "fieldname": "cancelled_at",
       "fieldtype": "Datetime",
       "label": "Cancelado em",
       "read_only": 1,
-      "no_copy": 1
+      "no_copy": 1,
+      "depends_on": "eval:doc.workflow_state == 'Cancelado'"
     },
     {
       "fieldname": "signature_disclaimer",
