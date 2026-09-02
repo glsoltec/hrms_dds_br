@@ -1,0 +1,67 @@
+{
+  "actions": [],
+  "creation": "2026-09-02 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "retroactive_section",
+    "allow_retroactive_days",
+    "allow_future_days",
+    "alert_section",
+    "no_dds_alert_days"
+  ],
+  "fields": [
+    {
+      "fieldname": "retroactive_section",
+      "fieldtype": "Section Break",
+      "label": "Validação de datas"
+    },
+    {
+      "fieldname": "allow_retroactive_days",
+      "fieldtype": "Int",
+      "label": "Dias de registro retroativo permitidos",
+      "default": "1"
+    },
+    {
+      "fieldname": "allow_future_days",
+      "fieldtype": "Int",
+      "label": "Dias futuros permitidos",
+      "default": "0"
+    },
+    {
+      "fieldname": "alert_section",
+      "fieldtype": "Section Break",
+      "label": "Alertas"
+    },
+    {
+      "fieldname": "no_dds_alert_days",
+      "fieldtype": "Int",
+      "label": "Dias sem DDS para alerta por projeto",
+      "default": "3"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "issingle": 1,
+  "istable": 0,
+  "links": [],
+  "modified": "2026-09-02 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "HRMS DDS BR",
+  "name": "HRMS DDS BR Settings",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1
+    },
+    {
+      "role": "Safety Manager",
+      "read": 1,
+      "write": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "track_changes": 1
+}

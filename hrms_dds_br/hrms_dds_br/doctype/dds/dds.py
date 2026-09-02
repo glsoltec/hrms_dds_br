@@ -3,7 +3,13 @@ from hashlib import sha256
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import now_datetime
+from frappe.utils import add_days, getdate, now_datetime
+
+from hrms_dds_br.permissions import PRIVILEGED_ROLES
+
+
+def signature_digest(signature):
+    return sha256(signature.encode("utf-8")).hexdigest()
 
 
 class DDS(Document):
@@ -11,6 +17,8 @@ class DDS(Document):
         self._set_project_data()
         self._validate_employees()
         self._validate_submitted_immutability()
+        self._validate_correction_fields()
+        self._validate_date_range()
         self._fill_employee_designations()
         self._record_signature_evidence()
         self._validate_signature_evidence()
@@ -21,6 +29,71 @@ class DDS(Document):
 
     def before_submit(self):
         self._validate_completion()
+
+    def before_cancel(self):
+        if not self.cancellation_reason or not self.cancellation_reason.strip():
+            frappe.throw(_("Informe o motivo do cancelamento antes de cancelar o DDS."))
+        self.cancellation_reason = self.cancellation_reason.strip()
+        self.cancelled_by = frappe.session.user
+        self.cancelled_at = now_datetime()
+
+    def on_trash(self):
+        if self.docstatus != 0:
+            frappe.throw(
+                _("Não é possível excluir fisicamente um DDS enviado ou cancelado. Use o cancelamento formal.")
+            )
+
+    def onload(self):
+        if self._is_privileged_access():
+            return
+        own_employees = self._get_user_employees()
+        if self.responsible_signature and self.responsible not in own_employees:
+            self.responsible_signature = None
+        for row in self.participants:
+            if row.signature and row.employee not in own_employees:
+                row.signature = None
+
+    def _is_privileged_access(self):
+        return bool(set(frappe.get_roles()) & PRIVILEGED_ROLES)
+
+    def _get_user_employees(self):
+        return set(
+            frappe.get_all(
+                "Employee",
+                filters={"user_id": frappe.session.user, "status": "Active"},
+                pluck="name",
+            )
+        )
+
+    def _settings_value(self, fieldname, default):
+        try:
+            value = frappe.db.get_single_value("HRMS DDS BR Settings", fieldname)
+        except Exception:
+            value = None
+        return default if value is None else value
+
+    def _validate_date_range(self):
+        if self.docstatus or not self.date:
+            return
+        retroactive_days = int(self._settings_value("allow_retroactive_days", 1) or 0)
+        future_days = int(self._settings_value("allow_future_days", 0) or 0)
+        today = getdate()
+        if getdate(self.date) < add_days(today, -retroactive_days):
+            frappe.throw(
+                _("A data do DDS não pode ser retroativa além de {0} dia(s).").format(retroactive_days)
+            )
+        if getdate(self.date) > add_days(today, future_days):
+            frappe.throw(
+                _("A data do DDS não pode ser futura além de {0} dia(s).").format(future_days)
+            )
+
+    def _validate_correction_fields(self):
+        if self.original_dds and not self.is_correction:
+            frappe.throw(_("Marque 'É correção de um DDS anterior' ao informar o DDS original."))
+        if self.is_correction and not self.original_dds:
+            frappe.throw(_("Informe o DDS original que está sendo corrigido."))
+        if self.is_correction and not self.correction_reason:
+            frappe.throw(_("Informe o motivo da correção."))
 
     def _fill_employee_designations(self):
         employees = {row.employee for row in self.participants if row.employee}
@@ -209,5 +282,23 @@ class DDS(Document):
                 )
 
 
-def signature_digest(signature):
-    return sha256(signature.encode("utf-8")).hexdigest()
+@frappe.whitelist()
+def cancel_dds(doc, cancellation_reason):
+    reason = (cancellation_reason or "").strip()
+    if not reason:
+        frappe.throw(_("Informe o motivo do cancelamento."))
+
+    doc = frappe.get_doc(frappe.parse_json(doc))
+    doc.load_from_db()
+    doc.cancellation_reason = reason
+    doc.db_set(
+        {
+            "cancellation_reason": reason,
+            "cancelled_by": frappe.session.user,
+            "cancelled_at": now_datetime(),
+        }
+    )
+
+    from frappe.model.workflow import apply_workflow
+
+    return apply_workflow(doc, "Cancelar")

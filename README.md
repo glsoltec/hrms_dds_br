@@ -2,7 +2,7 @@
 
 Formulário de Aplicação de DDS Diária para Obras e Projetos - Brasil, integrado ao **HRMS** do ERPNext/Frappe.
 
-Versão atual: `1.2.0`.
+Versão atual: `1.3.0`.
 
 ### Recursos
 
@@ -16,6 +16,9 @@ Versão atual: `1.2.0`.
 - **Integração HRMS:** botão _Histórico de DDS_ no formulário do `Employee`.
 - **Relatório `Employee DDS History`**: histórico de participação por empregado, com isolamento de acesso por participante/responsável no servidor.
 - Link **Histórico de DDS** exibido também na tela de autoatendimento HRMS `/hrms/home`, junto aos atalhos rápidos.
+- **Painel `DDS Dashboard`**: indicadores, gráfico mensal e alerta de projetos sem DDS recente.
+- **Configuração `HRMS DDS BR Settings`**: limite de dias retroativo/futuro para a data e dias sem DDS para alerta.
+- Regras de negócio: cancelamento exige motivo registrado, DDS enviado/cancelado não pode ser excluído fisicamente, correção formal vinculada ao DDS original e aviso sobre a validade da assinatura no formulário.
 - Papéis `Safety Manager` e `Safety Supervisor`.
 - Workspace _Segurança do Trabalho_ e formato de impressão `DDS`.
 

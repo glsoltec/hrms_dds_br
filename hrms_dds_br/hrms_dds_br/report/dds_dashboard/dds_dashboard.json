@@ -1,0 +1,37 @@
+{
+  "add_total_row": 0,
+  "apply_user_permissions": 1,
+  "columns": [],
+  "creation": "2026-09-02 00:00:00.000000",
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "idx": 0,
+  "is_standard": "Yes",
+  "json": "{}",
+  "modified": "2026-09-02 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "HRMS DDS BR",
+  "name": "DDS Dashboard",
+  "owner": "Administrator",
+  "prepared_report": 0,
+  "query": "",
+  "ref_doctype": "DDS",
+  "reference_report": "",
+  "report_name": "DDS Dashboard",
+  "report_type": "Script Report",
+  "roles": [
+    {
+      "role": "System Manager"
+    },
+    {
+      "role": "HR Manager"
+    },
+    {
+      "role": "Safety Manager"
+    },
+    {
+      "role": "Safety Supervisor"
+    }
+  ]
+}

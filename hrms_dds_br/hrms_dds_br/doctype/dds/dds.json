@@ -1,61 +1,299 @@
 {
- "actions": [],
- "allow_rename": 0,
- "autoname": "format:DDS-{YYYY}-{#####}",
- "creation": "2026-08-04 00:00:00.000000",
- "doctype": "DocType",
- "engine": "InnoDB",
- "field_order": [
-  "workflow_state", "date", "time", "project", "customer", "company", "location",
-  "responsible", "topic", "content_section", "objective", "risks_addressed",
-  "preventive_measures", "observations", "participants_section", "participants",
-  "closing_section", "responsible_confirmation", "responsible_signature",
-  "responsible_signature_collected_by", "responsible_signature_collected_at",
-  "responsible_signature_hash", "photo"
- ],
- "fields": [
-  {"fieldname":"workflow_state","fieldtype":"Link","label":"Situação","options":"Workflow State","read_only":1,"no_copy":1},
-  {"fieldname":"date","fieldtype":"Date","label":"Data","default":"Today","reqd":1,"in_list_view":1},
-  {"fieldname":"time","fieldtype":"Time","label":"Hora","default":"Now","reqd":1},
-  {"fieldname":"project","fieldtype":"Link","label":"Projeto/Obra","options":"Project","reqd":1,"in_list_view":1},
-  {"fieldname":"customer","fieldtype":"Link","label":"Cliente","options":"Customer","reqd":1},
-  {"fieldname":"company","fieldtype":"Link","label":"Empresa","options":"Company","reqd":1,"read_only":1},
-  {"fieldname":"location","fieldtype":"Data","label":"Local da atividade","reqd":1},
-  {"fieldname":"responsible","fieldtype":"Link","label":"Responsável pelo DDS","options":"Employee","reqd":1,"in_list_view":1},
-  {"fieldname":"topic","fieldtype":"Select","label":"Tema","options":"Trabalho em Altura\nEletricidade\nEPI\nFerramentas Manuais\nMáquinas e Equipamentos\nProdutos Químicos\nErgonomia\nOrganização e Limpeza\nTrânsito Interno\nQuase Acidentes\nOutro","reqd":1,"in_list_view":1},
-  {"fieldname":"content_section","fieldtype":"Section Break","label":"Conteúdo"},
-  {"fieldname":"objective","fieldtype":"Small Text","label":"Objetivo do DDS","reqd":1},
-  {"fieldname":"risks_addressed","fieldtype":"Small Text","label":"Riscos abordados","reqd":1},
-  {"fieldname":"preventive_measures","fieldtype":"Small Text","label":"Medidas preventivas","reqd":1},
-  {"fieldname":"observations","fieldtype":"Text","label":"Observações"},
-  {"fieldname":"participants_section","fieldtype":"Section Break","label":"Participantes"},
-  {"fieldname":"participants","fieldtype":"Table","label":"Participantes","options":"DDS Participante","reqd":1},
-  {"fieldname":"closing_section","fieldtype":"Section Break","label":"Encerramento"},
-  {"fieldname":"responsible_confirmation","fieldtype":"Check","label":"Responsável confirma a realização","default":"0"},
-  {"fieldname":"responsible_signature","fieldtype":"Signature","label":"Assinatura do responsável"},
-  {"fieldname":"responsible_signature_collected_by","fieldtype":"Link","label":"Assinatura coletada por","options":"User","read_only":1,"no_copy":1},
-  {"fieldname":"responsible_signature_collected_at","fieldtype":"Datetime","label":"Assinatura coletada em","read_only":1,"no_copy":1},
-  {"fieldname":"responsible_signature_hash","fieldtype":"Data","label":"Hash da assinatura","read_only":1,"hidden":1,"no_copy":1},
-  {"fieldname":"photo","fieldtype":"Attach Image","label":"Foto do DDS"}
- ],
- "index_web_pages_for_search": 0,
- "is_submittable": 1,
- "links": [],
- "modified": "2026-08-04 00:00:00.000000",
- "modified_by": "Administrator",
- "module": "HRMS DDS BR",
- "name": "DDS",
- "naming_rule": "Expression",
- "owner": "Administrator",
- "permissions": [
-  {"role":"System Manager","read":1,"write":1,"create":1,"delete":1,"submit":1,"cancel":1,"amend":1,"print":1,"email":1,"export":1,"report":1,"share":1},
-  {"role":"HR Manager","read":1,"print":1,"report":1},
-  {"role":"Safety Manager","read":1,"write":1,"create":1,"delete":1,"submit":1,"cancel":1,"amend":1,"print":1,"report":1},
-  {"role":"Safety Supervisor","read":1,"write":1,"create":1,"submit":1,"print":1,"report":1},
-  {"role":"Employee","read":1,"print":1}
- ],
- "sort_field": "date",
- "sort_order": "DESC",
- "states": [],
- "track_changes": 1
+  "actions": [],
+  "allow_rename": 0,
+  "autoname": "format:DDS-{YYYY}-{#####}",
+  "creation": "2026-08-04 00:00:00.000000",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "workflow_state",
+    "date",
+    "time",
+    "project",
+    "customer",
+    "company",
+    "location",
+    "responsible",
+    "topic",
+    "content_section",
+    "objective",
+    "risks_addressed",
+    "preventive_measures",
+    "observations",
+    "participants_section",
+    "participants",
+    "closing_section",
+    "responsible_confirmation",
+    "responsible_signature",
+    "responsible_signature_collected_by",
+    "responsible_signature_collected_at",
+    "responsible_signature_hash",
+    "photo",
+    "correction_section",
+    "is_correction",
+    "original_dds",
+    "correction_reason",
+    "cancellation_section",
+    "cancellation_reason",
+    "cancelled_by",
+    "cancelled_at",
+    "signature_disclaimer"
+  ],
+  "fields": [
+    {
+      "fieldname": "workflow_state",
+      "fieldtype": "Link",
+      "label": "Situação",
+      "options": "Workflow State",
+      "read_only": 1,
+      "no_copy": 1
+    },
+    {
+      "fieldname": "date",
+      "fieldtype": "Date",
+      "label": "Data",
+      "default": "Today",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "time",
+      "fieldtype": "Time",
+      "label": "Hora",
+      "default": "Now",
+      "reqd": 1
+    },
+    {
+      "fieldname": "project",
+      "fieldtype": "Link",
+      "label": "Projeto/Obra",
+      "options": "Project",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Cliente",
+      "options": "Customer",
+      "reqd": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "label": "Empresa",
+      "options": "Company",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "location",
+      "fieldtype": "Data",
+      "label": "Local da atividade",
+      "reqd": 1
+    },
+    {
+      "fieldname": "responsible",
+      "fieldtype": "Link",
+      "label": "Responsável pelo DDS",
+      "options": "Employee",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "topic",
+      "fieldtype": "Select",
+      "label": "Tema",
+      "options": "Trabalho em Altura\nEletricidade\nEPI\nFerramentas Manuais\nMáquinas e Equipamentos\nProdutos Químicos\nErgonomia\nOrganização e Limpeza\nTrânsito Interno\nQuase Acidentes\nOutro",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "content_section",
+      "fieldtype": "Section Break",
+      "label": "Conteúdo"
+    },
+    {
+      "fieldname": "objective",
+      "fieldtype": "Small Text",
+      "label": "Objetivo do DDS",
+      "reqd": 1
+    },
+    {
+      "fieldname": "risks_addressed",
+      "fieldtype": "Small Text",
+      "label": "Riscos abordados",
+      "reqd": 1
+    },
+    {
+      "fieldname": "preventive_measures",
+      "fieldtype": "Small Text",
+      "label": "Medidas preventivas",
+      "reqd": 1
+    },
+    {
+      "fieldname": "observations",
+      "fieldtype": "Text",
+      "label": "Observações"
+    },
+    {
+      "fieldname": "participants_section",
+      "fieldtype": "Section Break",
+      "label": "Participantes"
+    },
+    {
+      "fieldname": "participants",
+      "fieldtype": "Table",
+      "label": "Participantes",
+      "options": "DDS Participante",
+      "reqd": 1
+    },
+    {
+      "fieldname": "closing_section",
+      "fieldtype": "Section Break",
+      "label": "Encerramento"
+    },
+    {
+      "fieldname": "responsible_confirmation",
+      "fieldtype": "Check",
+      "label": "Responsável confirma a realização",
+      "default": "0"
+    },
+    {
+      "fieldname": "responsible_signature",
+      "fieldtype": "Signature",
+      "label": "Assinatura do responsável"
+    },
+    {
+      "fieldname": "responsible_signature_collected_by",
+      "fieldtype": "Link",
+      "label": "Assinatura coletada por",
+      "options": "User",
+      "read_only": 1,
+      "no_copy": 1
+    },
+    {
+      "fieldname": "responsible_signature_collected_at",
+      "fieldtype": "Datetime",
+      "label": "Assinatura coletada em",
+      "read_only": 1,
+      "no_copy": 1
+    },
+    {
+      "fieldname": "responsible_signature_hash",
+      "fieldtype": "Data",
+      "label": "Hash da assinatura",
+      "read_only": 1,
+      "hidden": 1,
+      "no_copy": 1
+    },
+    {
+      "fieldname": "photo",
+      "fieldtype": "Attach Image",
+      "label": "Foto do DDS"
+    },
+    {
+      "fieldname": "correction_section",
+      "fieldtype": "Section Break",
+      "label": "Correção"
+    },
+    {
+      "fieldname": "is_correction",
+      "fieldtype": "Check",
+      "label": "É correção de um DDS anterior"
+    },
+    {
+      "fieldname": "original_dds",
+      "fieldtype": "Link",
+      "label": "DDS original",
+      "options": "DDS"
+    },
+    {
+      "fieldname": "correction_reason",
+      "fieldtype": "Small Text",
+      "label": "Motivo da correção"
+    },
+    {
+      "fieldname": "cancellation_section",
+      "fieldtype": "Section Break",
+      "label": "Cancelamento"
+    },
+    {
+      "fieldname": "cancellation_reason",
+      "fieldtype": "Small Text",
+      "label": "Motivo do cancelamento"
+    },
+    {
+      "fieldname": "cancelled_by",
+      "fieldtype": "Link",
+      "label": "Cancelado por",
+      "options": "User",
+      "read_only": 1,
+      "no_copy": 1
+    },
+    {
+      "fieldname": "cancelled_at",
+      "fieldtype": "Datetime",
+      "label": "Cancelado em",
+      "read_only": 1,
+      "no_copy": 1
+    },
+    {
+      "fieldname": "signature_disclaimer",
+      "fieldtype": "HTML",
+      "options": "<div class=\"text-muted small\">A assinatura registrada comprova a coleta no sistema, mas não substitui assinatura digital qualificada nem comprova isoladamente a identidade do signatário.</div>"
+    }
+  ],
+  "index_web_pages_for_search": 0,
+  "is_submittable": 1,
+  "links": [],
+  "modified": "2026-08-04 00:00:00.000000",
+  "modified_by": "Administrator",
+  "module": "HRMS DDS BR",
+  "name": "DDS",
+  "naming_rule": "Expression",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "print": 1,
+      "email": 1,
+      "export": 1,
+      "report": 1,
+      "share": 1
+    },
+    { "role": "HR Manager", "read": 1, "print": 1, "report": 1 },
+    {
+      "role": "Safety Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "submit": 1,
+      "cancel": 1,
+      "amend": 1,
+      "print": 1,
+      "report": 1
+    },
+    {
+      "role": "Safety Supervisor",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "submit": 1,
+      "print": 1,
+      "report": 1
+    },
+    { "role": "Employee", "read": 1, "print": 1 }
+  ],
+  "sort_field": "date",
+  "sort_order": "DESC",
+  "states": [],
+  "track_changes": 1
 }
