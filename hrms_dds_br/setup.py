@@ -6,7 +6,7 @@ from frappe import _
 
 def _import_settings_schema():
     target = "hrms_dds_br_settings.json"
-    for base, _dirs, files in os.walk(frappe.get_app("hrms_dds_br")):
+    for base, _dirs, files in os.walk(frappe.get_app_path("hrms_dds_br")):
         if target in files:
             path = os.path.join(base, target)
             from frappe.modules.import_file import import_file_by_path
