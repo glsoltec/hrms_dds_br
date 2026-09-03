@@ -6,7 +6,7 @@ Aplicativo Frappe/ERPNext para registro, assinatura e acompanhamento de Diálogo
 
 O aplicativo Diálogo Diário de Segurança registra a realização do DDS, os riscos abordados, as medidas preventivas, os participantes, a presença e as assinaturas coletadas. A solução foi desenhada para uso em obras, projetos e operações com empregados cadastrados no HRMS.
 
-Versão atual: `1.4.35`.
+Versão atual: `1.4.36`.
 
 ## Compatibilidade
 
@@ -151,6 +151,32 @@ Abra uma issue em:
 <https://github.com/glsoltec/hrms_dds_br/issues>
 
 Inclua a versão do app, Frappe, ERPNext e HRMS, passos para reprodução e logs redigidos. Não envie senhas, tokens, dados pessoais completos ou anexos de empregados.
+
+Para questões de segurança, siga `SECURITY.md`.
+
+## Privacidade
+
+- O app processa dados de empregados, presença, assinaturas e imagens.
+- Assinaturas e foto são protegidas por `permlevel`; usuários comuns não as recebem via REST/Desk.
+- Notificações no submit são criadas apenas para participantes com `Employee.user_id`.
+- A organização responsável deve definir finalidade, base legal, retenção, eliminação, exportação e backup conforme a legislação aplicável.
+
+## Limitações conhecidas
+
+- A assinatura registrada não é assinatura digital (ICP-Brasil); é evidência de coleta com hash SHA-256.
+- A notificação de envio orienta a _revisar_ a presença; não há confirmação automática por endpoint.
+- A integração `/hrms/home` depende de seletores do frontend HRMS — validar após upgrades do HRMS.
+- DDS enviado é imutável; correções usam o fluxo de cancelamento + novo registro.
+
+## Screenshots
+
+Disponíveis em `screenshots/` (a incluir na página do Marketplace):
+
+- `workspace-sst-dds.png`
+- `form-dds.png`
+- `dds-tema.png`
+- `report-history.png`
+- `dashboard.png`
 
 ## Licença
 

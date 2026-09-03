@@ -81,7 +81,16 @@ def sync_sst_workspace_and_sidebar():
     links_changed = _ensure_workspace_links(workspace, links)
     charts_changed = _ensure_workspace_charts_and_cards(workspace)
     roles_changed = _ensure_workspace_roles(
-        workspace, ["Responsavel DDS"]
+        workspace,
+        [
+            "System Manager",
+            "HR Manager",
+            "Safety Manager",
+            "Safety Supervisor",
+            "Employee",
+            "Employee Self Service",
+            "Responsavel DDS",
+        ],
     )
     if shortcuts_changed or links_changed:
         content_changed = _rebuild_sst_content(workspace)

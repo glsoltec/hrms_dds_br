@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.36 - 2026-09-02
+
+- Adicionados `HOMOLOGATION.md`, `SECURITY.md` e `CONTRIBUTING.md`.
+- README com privacidade, limitações e seção de screenshots.
+- Removida fixture de workspace não utilizada; roles do workspace ampliadas.
+- CI com lint `ruff` informativo.
+
 ## 1.4.35 - 2026-09-02
 
 - BLOQ-06: corrigido import de `ensure_dds_charts_and_cards` no módulo de workspace.
