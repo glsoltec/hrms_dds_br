@@ -1,7 +1,7 @@
 {
   "app": "hrms_dds_br",
   "charts": [],
-  "content": "[{\"id\":\"dds_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Segurança do Trabalho</span>\",\"col\":12}},{\"id\":\"dds_shortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DDS\",\"col\":4}}]",
+  "content": "[{\"id\":\"dds_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Diálogo Diário de Segurança</span>\",\"col\":12}},{\"id\":\"dds_shortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"DDS\",\"col\":4}}]",
   "creation": "2026-08-04 00:00:00.000000",
   "doctype": "Workspace",
   "for_user": "",
@@ -9,7 +9,7 @@
   "icon": "safety",
   "indicator_color": "green",
   "is_hidden": 0,
-  "label": "Segurança do Trabalho",
+  "label": "Diálogo Diário de Segurança",
   "links": [
     {
       "link_type": "Report",
@@ -33,7 +33,7 @@
   "modified": "2026-08-04 00:00:00.000000",
   "modified_by": "Administrator",
   "module": "HRMS DDS BR",
-  "name": "Seguranca do Trabalho",
+  "name": "SST DDS",
   "number_cards": [],
   "owner": "Administrator",
   "parent_page": "",
@@ -56,6 +56,6 @@
       "type": "DocType"
     }
   ],
-  "title": "Segurança do Trabalho",
+  "title": "Diálogo Diário de Segurança",
   "type": "Workspace"
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.28 - 2026-09-02
+
+- Workspace `SST DDS` (rota `/desk/sst-dds`) com título `Diálogo Diário de Segurança`.
+- Desktop Icon e launcher apontam para `/desk/sst-dds`.
+- Sidebar atualizada para o novo workspace.
+
 ## 1.4.27 - 2026-09-02
 
 - Corrigida a persistência do rótulo `DDS` no Desktop Icon (usa `db.set_value`).

@@ -93,6 +93,9 @@ def sync_desktop_icon_label():
     app = frappe.db.get_value("Desktop Icon", "HRMS DDS BR", "app")
     if app == "hrms_dds_br":
         frappe.db.set_value("Desktop Icon", "HRMS DDS BR", "label", "DDS")
+        frappe.db.set_value(
+            "Desktop Icon", "HRMS DDS BR", "link", "/desk/sst-dds"
+        )
 
 
 def after_migrate():
@@ -270,7 +273,7 @@ def _rebuild_sst_content(workspace):
             "id": "dds_header",
             "type": "header",
             "data": {
-                "text": "<span class=\"h4\">Segurança do Trabalho</span>",
+                "text": "<span class=\"h4\">Diálogo Diário de Segurança</span>",
                 "col": 12,
             },
         },
@@ -472,38 +475,52 @@ def _ensure_workspace_roles(workspace, roles):
 
 def sync_sst_workspace_and_sidebar():
     ensure_dds_charts_and_cards()
-    workspace = frappe.db.exists("Workspace", "Seguranca do Trabalho")
-    if workspace:
-        workspace = frappe.get_doc("Workspace", "Seguranca do Trabalho")
-        links = [
-            ("DocType", "DDS", "Registros de DDS", 0, "Cadastros"),
-            ("DocType", "DDS Tema", "Temas de DDS", 0, "Cadastros"),
-            ("Report", "Employee DDS History", "Histórico de DDS do Empregado", 1, "Relatórios"),
-            ("Report", "DDS Dashboard", "Painel de DDS", 1, "Relatórios"),
-        ]
-        content_changed = _rebuild_sst_content(workspace)
-        shortcuts_changed = _ensure_workspace_shortcuts(workspace)
-        links_changed = _ensure_workspace_links(workspace, links)
-        charts_changed = _ensure_workspace_charts_and_cards(workspace)
-        roles_changed = _ensure_workspace_roles(
-            workspace, ["Responsavel DDS"]
-        )
-        if shortcuts_changed or links_changed:
-            content_changed = _rebuild_sst_content(workspace)
-        if (
-            content_changed
-            or shortcuts_changed
-            or links_changed
-            or charts_changed
-            or roles_changed
-        ):
-            workspace.save(ignore_permissions=True)
 
-    sidebar = frappe.db.exists("Workspace Sidebar", "Segurança do Trabalho")
+    old_workspace = "Seguranca do Trabalho"
+    workspace_name = "SST DDS"
+    if not frappe.db.exists("Workspace", workspace_name):
+        if frappe.db.exists("Workspace", old_workspace):
+            frappe.rename_doc("Workspace", old_workspace, workspace_name, force=True)
+    if not frappe.db.exists("Workspace", workspace_name):
+        return
+
+    workspace = frappe.get_doc("Workspace", workspace_name)
+    workspace.label = "Diálogo Diário de Segurança"
+    workspace.title = "Diálogo Diário de Segurança"
+    links = [
+        ("DocType", "DDS", "Registros de DDS", 0, "Cadastros"),
+        ("DocType", "DDS Tema", "Temas de DDS", 0, "Cadastros"),
+        ("Report", "Employee DDS History", "Histórico de DDS do Empregado", 1, "Relatórios"),
+        ("Report", "DDS Dashboard", "Painel de DDS", 1, "Relatórios"),
+    ]
+    content_changed = _rebuild_sst_content(workspace)
+    shortcuts_changed = _ensure_workspace_shortcuts(workspace)
+    links_changed = _ensure_workspace_links(workspace, links)
+    charts_changed = _ensure_workspace_charts_and_cards(workspace)
+    roles_changed = _ensure_workspace_roles(
+        workspace, ["Responsavel DDS"]
+    )
+    if shortcuts_changed or links_changed:
+        content_changed = _rebuild_sst_content(workspace)
+    if (
+        content_changed
+        or shortcuts_changed
+        or links_changed
+        or charts_changed
+        or roles_changed
+    ):
+        workspace.save(ignore_permissions=True)
+
+    old_sidebar = "Segurança do Trabalho"
+    sidebar_name = "SST DDS"
+    if not frappe.db.exists("Workspace Sidebar", sidebar_name):
+        if frappe.db.exists("Workspace Sidebar", old_sidebar):
+            frappe.rename_doc("Workspace Sidebar", old_sidebar, sidebar_name, force=True)
+    sidebar = frappe.db.exists("Workspace Sidebar", sidebar_name)
     if sidebar:
-        sidebar = frappe.get_doc("Workspace Sidebar", "Segurança do Trabalho")
+        sidebar = frappe.get_doc("Workspace Sidebar", sidebar_name)
         items = [
-            ("Home", "Workspace", "Seguranca do Trabalho"),
+            ("Home", "Workspace", workspace_name),
             ("DDS", "DocType", "DDS"),
             ("DDS Tema", "DocType", "DDS Tema"),
             ("Employee DDS History", "Report", "Employee DDS History"),

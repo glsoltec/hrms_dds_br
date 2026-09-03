@@ -18,7 +18,7 @@ add_to_apps_screen = [
         "name": "hrms_dds_br",
         "logo": "/assets/hrms_dds_br/images/hrms-dds-br.svg",
         "title": "Diálogo Diário de Segurança",
-        "route": "/desk/seguranca-do-trabalho",
+        "route": "/desk/sst-dds",
     }
 ]
 
