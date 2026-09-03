@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.30 - 2026-09-02
+
+- Ajuste na criação do workspace: cria com título e renomeia para `SST DDS` (rota `/desk/sst-dds`).
+
 ## 1.4.29 - 2026-09-02
 
 - Criação autossuficiente do workspace `SST DDS` quando ausente.
