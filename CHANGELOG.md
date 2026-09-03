@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.37 - 2026-09-02
+
+- Screenshots adicionadas ao repositório (`screenshots/`).
+
 ## 1.4.36 - 2026-09-02
 
 - Adicionados `HOMOLOGATION.md`, `SECURITY.md` e `CONTRIBUTING.md`.

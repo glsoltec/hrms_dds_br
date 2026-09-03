@@ -6,7 +6,7 @@ Aplicativo Frappe/ERPNext para registro, assinatura e acompanhamento de Diálogo
 
 O aplicativo Diálogo Diário de Segurança registra a realização do DDS, os riscos abordados, as medidas preventivas, os participantes, a presença e as assinaturas coletadas. A solução foi desenhada para uso em obras, projetos e operações com empregados cadastrados no HRMS.
 
-Versão atual: `1.4.36`.
+Versão atual: `1.4.37`.
 
 ## Compatibilidade
 
@@ -172,11 +172,12 @@ Para questões de segurança, siga `SECURITY.md`.
 
 Disponíveis em `screenshots/` (a incluir na página do Marketplace):
 
-- `workspace-sst-dds.png`
-- `form-dds.png`
-- `dds-tema.png`
-- `report-history.png`
-- `dashboard.png`
+- `image01.png`
+- `image02.png`
+- `image03.png`
+- `image04.png`
+- `image05.png`
+- `image06.png`
 
 ## Licença
 
