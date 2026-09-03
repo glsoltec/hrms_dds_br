@@ -90,10 +90,9 @@ def sync_desktop_icon_label():
     icon = frappe.db.exists("Desktop Icon", "HRMS DDS BR")
     if not icon:
         return
-    icon = frappe.get_doc("Desktop Icon", "HRMS DDS BR")
-    if icon.app == "hrms_dds_br" and icon.label != "DDS":
-        icon.label = "DDS"
-        icon.save(ignore_permissions=True)
+    app = frappe.db.get_value("Desktop Icon", "HRMS DDS BR", "app")
+    if app == "hrms_dds_br":
+        frappe.db.set_value("Desktop Icon", "HRMS DDS BR", "label", "DDS")
 
 
 def after_migrate():

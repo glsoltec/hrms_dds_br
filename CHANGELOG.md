@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.27 - 2026-09-02
+
+- Corrigida a persistência do rótulo `DDS` no Desktop Icon (usa `db.set_value`).
+
 ## 1.4.26 - 2026-09-02
 
 - Alterado o rótulo do Desktop Icon para `DDS`.
