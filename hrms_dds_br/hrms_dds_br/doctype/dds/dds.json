@@ -154,7 +154,8 @@
     {
       "fieldname": "responsible_signature",
       "fieldtype": "Signature",
-      "label": "Assinatura do responsável"
+      "label": "Assinatura do responsável",
+      "permlevel": 1
     },
     {
       "fieldname": "responsible_signature_collected_by",
@@ -162,14 +163,16 @@
       "label": "Assinatura coletada por",
       "options": "User",
       "read_only": 1,
-      "no_copy": 1
+      "no_copy": 1,
+      "permlevel": 1
     },
     {
       "fieldname": "responsible_signature_collected_at",
       "fieldtype": "Datetime",
       "label": "Assinatura coletada em",
       "read_only": 1,
-      "no_copy": 1
+      "no_copy": 1,
+      "permlevel": 1
     },
     {
       "fieldname": "responsible_signature_hash",
@@ -177,12 +180,14 @@
       "label": "Hash da assinatura",
       "read_only": 1,
       "hidden": 1,
-      "no_copy": 1
+      "no_copy": 1,
+      "permlevel": 1
     },
     {
       "fieldname": "photo",
       "fieldtype": "Attach Image",
-      "label": "Foto do DDS"
+      "label": "Foto do DDS",
+      "permlevel": 1
     },
     {
       "fieldname": "correction_section",
@@ -268,7 +273,12 @@
       "report": 1,
       "share": 1
     },
-    { "role": "HR Manager", "read": 1, "print": 1, "report": 1 },
+    {
+      "role": "HR Manager",
+      "read": 1,
+      "print": 1,
+      "report": 1
+    },
     {
       "role": "Safety Manager",
       "read": 1,
@@ -289,8 +299,18 @@
       "print": 1,
       "report": 1
     },
-    { "role": "Employee", "read": 1, "print": 1, "report": 1 },
-    { "role": "Employee Self Service", "read": 1, "print": 1, "report": 1 },
+    {
+      "role": "Employee",
+      "read": 1,
+      "print": 1,
+      "report": 1
+    },
+    {
+      "role": "Employee Self Service",
+      "read": 1,
+      "print": 1,
+      "report": 1
+    },
     {
       "role": "Responsavel DDS",
       "read": 1,
@@ -299,6 +319,36 @@
       "submit": 1,
       "print": 1,
       "report": 1
+    },
+    {
+      "role": "System Manager",
+      "permlevel": 1,
+      "read": 1,
+      "write": 1
+    },
+    {
+      "role": "Safety Manager",
+      "permlevel": 1,
+      "read": 1,
+      "write": 1
+    },
+    {
+      "role": "Safety Supervisor",
+      "permlevel": 1,
+      "read": 1,
+      "write": 1
+    },
+    {
+      "role": "HR Manager",
+      "permlevel": 1,
+      "read": 1,
+      "write": 1
+    },
+    {
+      "role": "Responsavel DDS",
+      "permlevel": 1,
+      "read": 1,
+      "write": 1
     }
   ],
   "sort_field": "date",

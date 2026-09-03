@@ -69,12 +69,12 @@ class DDS(Document):
                 frappe.get_doc(
                     {
                         "doctype": "Notification Log",
-                        "subject": _("DDS {0} enviado - confirme sua presença").format(
+                        "subject": _("DDS {0} enviado - revise sua presença").format(
                             self.name
                         ),
                         "email_content": _(
                             "O Diálogo Diário de Segurança {0} foi enviado. Acesse para "
-                            "confirmar sua presença."
+                            "revisar sua presença."
                         ).format(self.name),
                         "for_user": user_id,
                         "type": "Alert",

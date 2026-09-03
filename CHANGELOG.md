@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.32 - 2026-09-02
+
+- Assinaturas/foto protegidas por `permlevel` 1 no servidor (BLOQ-03).
+- Ajustado o texto da notificação de submit.
+
 ## 1.4.31 - 2026-09-02
 
 - Cancelamento valida permissão antes de gravar (BLOQ-01).
