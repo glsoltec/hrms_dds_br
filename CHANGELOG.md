@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.35 - 2026-09-02
+
+- BLOQ-06: corrigido import de `ensure_dds_charts_and_cards` no módulo de workspace.
+
 ## 1.4.34 - 2026-09-02
 
 - BLOQ-06: `setup.py` dividido no pacote `setup/` (masters, dashboard, desktop, content, workspace, asset).

@@ -6,6 +6,7 @@ from .content import (
     _ensure_workspace_shortcuts,
     _rebuild_sst_content,
 )
+from .dashboard import ensure_dds_charts_and_cards
 
 
 def _ensure_workspace_charts_and_cards(workspace):
