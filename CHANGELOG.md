@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.31 - 2026-09-02
+
+- Cancelamento valida permissão antes de gravar (BLOQ-01).
+- `Responsavel DDS` incluído na transição de envio (BLOQ-02).
+- Teste de regressão atualizado para assinatura opcional de participante (BLOQ-04).
+- Sincronização de workspace/sidebar preserva itens não gerenciados (BLOQ-05).
+
 ## 1.4.30 - 2026-09-02
 
 - Ajuste na criação do workspace: cria com título e renomeia para `SST DDS` (rota `/desk/sst-dds`).

@@ -18,14 +18,13 @@ class TestDDS(FrappeTestCase):
         with self.assertRaises(frappe.ValidationError):
             doc._validate_participants()
 
-    def test_present_participant_requires_signature(self):
+    def test_present_participant_signature_is_optional(self):
         doc = frappe.new_doc("DDS")
         doc.responsible_confirmation = 1
         doc.responsible_signature = "data:image/svg+xml,test"
         doc.append("participants", {"employee": "EMP-TEST", "present": 1})
 
-        with self.assertRaises(frappe.ValidationError):
-            doc._validate_completion()
+        doc._validate_completion()
 
     def test_signature_metadata_cannot_change_without_signature_change(self):
         doc = frappe.new_doc("DDS")

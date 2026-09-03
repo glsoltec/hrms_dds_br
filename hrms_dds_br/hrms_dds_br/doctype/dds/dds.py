@@ -353,6 +353,11 @@ class DDS(Document):
 
 @frappe.whitelist()
 def cancel_dds(doc, cancellation_reason):
+    doc = frappe.get_doc(frappe.parse_json(doc))
+    doc.load_from_db()
+
+    doc.check_permission("cancel")
+
     reason = (cancellation_reason or "").strip()
     roles = set(frappe.get_roles())
     can_without_reason = (
@@ -361,8 +366,6 @@ def cancel_dds(doc, cancellation_reason):
     if not can_without_reason and not reason:
         frappe.throw(_("Informe o motivo do cancelamento."))
 
-    doc = frappe.get_doc(frappe.parse_json(doc))
-    doc.load_from_db()
     doc.cancellation_reason = reason
     doc.db_set(
         {

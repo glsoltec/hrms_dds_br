@@ -124,15 +124,15 @@ def _normalize_workspace_content(workspace):
 
 
 def _ensure_workspace_links(workspace, links):
-    valid_targets = {target for _lt, target, *_rest in links}
-    existing = list(workspace.links)
-    workspace.links = [link for link in workspace.links if link.link_to in valid_targets]
-    changed = _normalize_workspace_content(workspace) or len(workspace.links) != len(existing)
+    content_changed = _normalize_workspace_content(workspace)
+    changed = content_changed
     for index, (link_type, link_to, label, is_query_report, group) in enumerate(links):
-        link = next(
-            (item for item in workspace.links if item.link_type == link_type and item.link_to == link_to),
-            None,
-        )
+        matches = [
+            item
+            for item in workspace.links
+            if item.link_type == link_type and item.link_to == link_to
+        ]
+        link = matches[0] if matches else None
         if link is None:
             link = workspace.append("links", {})
             changed = True
@@ -152,19 +152,17 @@ def _ensure_workspace_links(workspace, links):
         if link.idx != index + 1:
             link.idx = index + 1
             changed = True
+        for extra in matches[1:]:
+            workspace.links.remove(extra)
+            changed = True
     return changed
 
 
 def _ensure_sidebar_items(sidebar, items):
-    existing = list(sidebar.items)
-    valid_labels = {label for label in items}
-    sidebar.items = [item for item in sidebar.items if item.label in valid_labels]
-    changed = len(sidebar.items) != len(existing)
+    changed = False
     for index, (label, link_type, link_to) in enumerate(items):
-        item = next(
-            (i for i in sidebar.items if i.label == label),
-            None,
-        )
+        matches = [item for item in sidebar.items if item.label == label]
+        item = matches[0] if matches else None
         if item is None:
             item = sidebar.append("items", {})
             changed = True
@@ -182,6 +180,9 @@ def _ensure_sidebar_items(sidebar, items):
             changed = True
         if item.idx != index + 1:
             item.idx = index + 1
+            changed = True
+        for extra in matches[1:]:
+            sidebar.items.remove(extra)
             changed = True
     return changed
 

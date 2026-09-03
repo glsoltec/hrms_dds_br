@@ -58,6 +58,13 @@
       "allow_self_approval": 1
     },
     {
+      "state": "Rascunho",
+      "action": "Enviar",
+      "next_state": "Realizado/Enviado",
+      "allowed": "Responsavel DDS",
+      "allow_self_approval": 1
+    },
+    {
       "state": "Realizado/Enviado",
       "action": "Cancelar",
       "next_state": "Cancelado",
