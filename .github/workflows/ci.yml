@@ -41,5 +41,7 @@ jobs:
                   json.load(file)
           print("json ok")
           PY
+      - name: Run config tests
+        run: python -m unittest discover -s tests -v
       - name: Check whitespace
         run: git diff --check

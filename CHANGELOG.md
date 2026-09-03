@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.33 - 2026-09-02
+
+- Testes de configuração/regressão (stdlib) adicionados e executados no CI.
+
 ## 1.4.32 - 2026-09-02
 
 - Assinaturas/foto protegidas por `permlevel` 1 no servidor (BLOQ-03).
