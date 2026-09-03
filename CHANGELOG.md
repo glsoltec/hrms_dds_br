@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.34 - 2026-09-02
+
+- BLOQ-06: `setup.py` dividido no pacote `setup/` (masters, dashboard, desktop, content, workspace, asset).
+
 ## 1.4.33 - 2026-09-02
 
 - Testes de configuração/regressão (stdlib) adicionados e executados no CI.
