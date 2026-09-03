@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.26 - 2026-09-02
+
+- Alterado o rótulo do Desktop Icon para `DDS`.
+
 ## 1.4.25 - 2026-09-02
 
 - Alterado o nome comercial exibido para `Diálogo Diário de Segurança`.

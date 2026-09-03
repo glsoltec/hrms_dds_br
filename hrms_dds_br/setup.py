@@ -86,12 +86,23 @@ def ensure_dds_roles():
         ).insert(ignore_permissions=True)
 
 
+def sync_desktop_icon_label():
+    icon = frappe.db.exists("Desktop Icon", "HRMS DDS BR")
+    if not icon:
+        return
+    icon = frappe.get_doc("Desktop Icon", "HRMS DDS BR")
+    if icon.app == "hrms_dds_br" and icon.label != "DDS":
+        icon.label = "DDS"
+        icon.save(ignore_permissions=True)
+
+
 def after_migrate():
     sync_employee_dds_report_roles()
     frappe.cache.delete_value("doctype_modules")
     ensure_default_topics()
     ensure_dds_roles()
     ensure_dds_charts_and_cards()
+    sync_desktop_icon_label()
     sync_sst_workspace_and_sidebar()
 
 
