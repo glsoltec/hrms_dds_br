@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.29 - 2026-09-02
+
+- Criação autossuficiente do workspace `SST DDS` quando ausente.
+
 ## 1.4.28 - 2026-09-02
 
 - Workspace `SST DDS` (rota `/desk/sst-dds`) com título `Diálogo Diário de Segurança`.

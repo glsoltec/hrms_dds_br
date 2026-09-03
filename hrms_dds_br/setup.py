@@ -482,7 +482,19 @@ def sync_sst_workspace_and_sidebar():
         if frappe.db.exists("Workspace", old_workspace):
             frappe.rename_doc("Workspace", old_workspace, workspace_name, force=True)
     if not frappe.db.exists("Workspace", workspace_name):
-        return
+        workspace = frappe.get_doc(
+            {
+                "doctype": "Workspace",
+                "name": workspace_name,
+                "app": "hrms_dds_br",
+                "module": "HRMS DDS BR",
+                "label": "Diálogo Diário de Segurança",
+                "title": "Diálogo Diário de Segurança",
+                "icon": "safety",
+                "indicator_color": "green",
+                "public": 1,
+            }
+        ).insert(ignore_permissions=True)
 
     workspace = frappe.get_doc("Workspace", workspace_name)
     workspace.label = "Diálogo Diário de Segurança"
